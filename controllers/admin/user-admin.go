@@ -55,10 +55,7 @@ func (c *UserAdminController) DoAdd() {
 
 func (c *UserAdminController) Edit() {
 	id, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 64)
-	o := orm.NewOrm()
-	userAdmin := models.UserAdmin{Id: id}
-	o.Read(&userAdmin)
-	c.Data["userAdmin"] = userAdmin
+	c.Data["userAdmin"] = service.GetUserAdminInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/user-admin-edit.html"
 }

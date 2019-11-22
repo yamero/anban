@@ -38,7 +38,8 @@ func (c *RegionController) DoAddProvince() {
 }
 
 func (c *RegionController) EditProvince() {
-
+	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
+	c.TplName = "admin/province-edit.html"
 }
 
 func (c *RegionController) DoEditProvince() {
