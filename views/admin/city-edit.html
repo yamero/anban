@@ -24,18 +24,6 @@
         <form class="layui-form" id="data-form">
             {{.xsrfdata}}
             <input type="hidden" name="level" value="2">
-            <input type="hidden" name="id" value="{{.record.Id}}">
-            <div class="layui-form-item">
-                <label for="username" class="layui-form-label">
-                    <span class="x-red">*</span>市名称
-                </label>
-                <div class="layui-input-inline">
-                    <input type="text" id="name" name="name" value="{{.record.Name}}" autocomplete="off" class="layui-input" lay-verify="">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-
-                </div>
-            </div>
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
                     <span class="x-red">*</span>所属省
@@ -43,9 +31,21 @@
                 <div class="layui-input-inline">
                     <select name="parent_id" lay-verify="">
                         {{range .provinceList}}
-                        <option value="{{.Id}}" {{if eq $.record.Parent.Id .Id}}selected{{end}}>{{.Name}}</option>
+                            <option value="{{.Id}}" {{if eq $.record.Parent.Id .Id}}selected{{end}}>{{.Name}}</option>
                         {{end}}
                     </select>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+
+                </div>
+            </div>
+            <input type="hidden" name="id" value="{{.record.Id}}">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>市名称
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="name" name="name" value="{{.record.Name}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 

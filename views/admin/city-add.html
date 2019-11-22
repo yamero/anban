@@ -26,10 +26,14 @@
             <input type="hidden" name="level" value="2">
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
-                    <span class="x-red">*</span>市名称
+                    <span class="x-red">*</span>所属省
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="name" name="name" autocomplete="off" class="layui-input" lay-verify="">
+                    <select name="parent_id" lay-verify="">
+                        {{range .provinceList}}
+                            <option value="{{.Id}}">{{.Name}}</option>
+                        {{end}}
+                    </select>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -37,14 +41,10 @@
             </div>
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
-                    <span class="x-red">*</span>所属省
+                    <span class="x-red">*</span>市名称
                 </label>
                 <div class="layui-input-inline">
-                    <select name="parent_id" lay-verify="">
-                        {{range .provinceList}}
-                        <option value="{{.Id}}">{{.Name}}</option>
-                        {{end}}
-                    </select>
+                    <input type="text" id="name" name="name" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 

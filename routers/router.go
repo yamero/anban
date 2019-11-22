@@ -14,6 +14,7 @@ func init() {
     beego.Router("/main", &controllers.MainController{})
 
 	// 后端路由
+	beego.Router("/common/get_region_by_parent", &admin.CommonController{}, "post:GetRegionListByParent")
 	beego.Router("/admin", &admin.IndexController{}, "get:Index")
 	beego.Router("/admin/login", &admin.UserAdminController{}, "get:Login;post:DoLogin")
 	beego.Router("/admin/logout", &admin.UserAdminController{}, "get:Logout")
@@ -31,6 +32,10 @@ func init() {
 	beego.Router("/admin/city", &admin.CityController{}, "get:ShowCityList;post:ShowCityList")
 	beego.Router("/admin/city/add", &admin.CityController{}, "get:AddCity;post:DoAddCity")
 	beego.Router("/admin/city/edit/?:id", &admin.CityController{}, "get:EditCity;post:DoEditCity")
+
+	beego.Router("/admin/district", &admin.DistrictController{}, "get:ShowDistrictList;post:ShowDistrictList")
+	beego.Router("/admin/district/add", &admin.DistrictController{}, "get:AddDistrict;post:DoAddDistrict")
+	beego.Router("/admin/district/edit/?:id", &admin.DistrictController{}, "get:EditDistrict;post:DoEditDistrict")
 
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")

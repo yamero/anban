@@ -12,7 +12,7 @@ import (
 func GetRegionInfo(id int64) *models.Region {
 	o := orm.NewOrm()
 	region := &models.Region{}
-	o.QueryTable("Region").Filter("id", id).RelatedSel("Parent").One(region)
+	o.QueryTable("Region").Filter("id", id).RelatedSel().One(region)
 	return region
 }
 
@@ -46,12 +46,12 @@ func AddRegion(input url.Values) (int64, error) {
 
 // 获取区域列表
 func GetRegionList(p map[string]interface{}) (int64, []*models.Region) {
-	var provinceList []*models.Region
+	var regionList []*models.Region
 	o := orm.NewOrm()
 	qs := o.QueryTable("Region").Filter("level", p["level"].(int))
 	relation, _ := p["relation"].(bool)
 	if relation {
-		qs = qs.RelatedSel("Parent")
+		qs = qs.RelatedSel()
 	}
 	totalCount, _ := qs.Count()
 	curPage, ok := p["curPage"]
@@ -60,9 +60,17 @@ func GetRegionList(p map[string]interface{}) (int64, []*models.Region) {
 		start := perCount.(int) * (curPage.(int) - 1)
 		qs = qs.Limit(perCount, start)
 	}
-	qs.All(&provinceList)
-	for _, province := range provinceList {
-		province.LevelShow = models.RegionLevel[province.Level]
+	qs.All(&regionList)
+	for _, region := range regionList {
+		region.LevelShow = models.RegionLevel[region.Level]
 	}
-	return totalCount, provinceList
+	return totalCount, regionList
+}
+
+// 根据区域Id获取其他下级区域列表
+func GetRegionListByParent(id int64) []*models.Region {
+	var regionList []*models.Region
+	o := orm.NewOrm()
+	o.QueryTable("Region").RelatedSel("Parent").Filter("parent_id", id).All(&regionList)
+	return regionList
 }
