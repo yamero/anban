@@ -25,7 +25,7 @@ func (c *RegionController) DoAddProvince() {
 		c.ServeJSON()
 		return
 	}
-	_, err := service.AddProvince(input)
+	_, err := service.AddRegion(input)
 	if err != nil {
 		res = utils.ResJson(0, "添加失败", "")
 		c.Data["json"] = res
@@ -74,7 +74,8 @@ func (c *RegionController) ShowProvinceList() {
 	p := map[string]interface{}{}
 	p["curPage"] = curPage
 	p["perCount"] = perCount
-	totalCount, recordList := service.GetProvinceList(p)
+	p["level"] = 1
+	totalCount, recordList := service.GetRegionList(p)
 	paginator := utils.NewPaginator(int(totalCount), perCount, 5, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList

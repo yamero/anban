@@ -23,6 +23,8 @@
     <div class="layui-row">
         <form class="layui-form" id="data-form">
             {{.xsrfdata}}
+            <input type="hidden" name="parent_id" value="0">
+            <input type="hidden" name="level" value="1">
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
                     <span class="x-red">*</span>省名称
@@ -45,7 +47,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">添加</button>
+                <button class="layui-btn" lay-filter="do-submit" lay-submit="">添加</button>
             </div>
         </form>
     </div>
@@ -59,7 +61,7 @@
                 canSubmit = true;
 
             //监听提交
-            form.on('submit(add)',
+            form.on('submit(do-submit)',
                 function (data) {
 
                     if ($("#name").val().length <= 0) {

@@ -2,8 +2,10 @@ package service
 
 import (
 	"anban/models"
+	"anban/utils"
 	"github.com/astaxie/beego/orm"
 	"net/url"
+	"strconv"
 )
 
 // 获取区域信息
@@ -20,29 +22,33 @@ func EditRegion(input url.Values) (int64, error) {
 	p := orm.Params{}
 	p["name"] = input["name"][0]
 	p["code"] = input["code"][0]
-	parentId, ok := input["parent_id"]
-	if ok {
-		p["parent_id"] = parentId[0]
-	}
+	p["parent_id"] = input["parent_id"][0]
 	return o.QueryTable("Region").Filter("id", input["id"][0]).Update(p)
 }
 
-// 添加省
-func AddProvince(input url.Values) (int64, error) {
+// 添加区域信息
+func AddRegion(input url.Values) (int64, error) {
 	o := orm.NewOrm()
+	level, _ := strconv.Atoi(input["level"][0])
+	parentId := utils.Atoi64(input["parent_id"][0])
+	parentRegion := &models.Region{}
+	if level > 1 {
+		parentRegion.Id = parentId
+		o.Read(parentRegion)
+	}
 	region := models.Region{}
 	region.Name = input["name"][0]
 	region.Code = input["code"][0]
-	region.Level = 1
-	region.Parent = &models.Region{}
+	region.Level = level
+	region.Parent = parentRegion
 	return o.Insert(&region)
 }
 
-// 获取省列表
-func GetProvinceList(p map[string]interface{}) (int64, []*models.Region) {
+// 获取区域列表
+func GetRegionList(p map[string]interface{}) (int64, []*models.Region) {
 	var provinceList []*models.Region
 	o := orm.NewOrm()
-	qs := o.QueryTable("Region").Filter("level", 1)
+	qs := o.QueryTable("Region").Filter("level", p["level"].(int))
 	totalCount, _ := qs.Count()
 	curPage, ok := p["curPage"]
 	perCount, _ := p["perCount"]

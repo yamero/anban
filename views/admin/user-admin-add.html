@@ -100,7 +100,7 @@
             </div>
             <div class="layui-form-item">
                 <label for="L_repass" class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="add" lay-submit="">添加</button>
+                <button class="layui-btn" lay-filter="do-submit" lay-submit="">添加</button>
             </div>
         </form>
     </div>
@@ -114,7 +114,7 @@
                 canSubmit = true;
 
             //监听提交
-            form.on('submit(add)',
+            form.on('submit(do-submit)',
                 function (data) {
 
                     if ($("#account").val().length <= 0) {
