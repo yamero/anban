@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>安伴后台管理系统-修改管理员</title>
+    <title>安伴后台管理系统-添加省</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport"
@@ -21,82 +21,24 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" id="edit-form">
+        <form class="layui-form" id="data-form">
             {{.xsrfdata}}
-            <input type="hidden" name="id" value="{{.userAdmin.Id}}">
+            <input type="hidden" name="id" value="{{.record.Id}}">
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
-                    <span class="x-red">*</span>登录名
+                    <span class="x-red">*</span>省名称
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="account" name="account" value="{{.userAdmin.Account}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="name" name="name" value="{{.record.Name}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
                 </div>
             </div>
             <div class="layui-form-item">
-                <label for="L_pass" class="layui-form-label">
-                    密码
-                </label>
+                <label for="phone" class="layui-form-label">行政代码</label>
                 <div class="layui-input-inline">
-                    <input type="password" id="password" name="password" autocomplete="off" class="layui-input" lay-verify="">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    6到16个字符，不修改密码请留空
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_repass" class="layui-form-label">
-                    确认密码
-                </label>
-                <div class="layui-input-inline">
-                    <input type="password" id="repassword" name="repassword" autocomplete="off" class="layui-input" lay-verify="">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-                    不修改密码请留空
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label"><span class="x-red">*</span>角色</label>
-                <div class="layui-input-inline">
-                    <select name="role_id">
-                        <option value="1">超级管理员</option>
-                    </select>
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="phone" class="layui-form-label">状态</label>
-                <div class="layui-input-inline">
-                    <input type="radio" name="status" value="1" title="正常" {{if eq .userAdmin.Status 1}}checked{{end}}>
-                    <input type="radio" name="status" value="0" title="禁用" {{if eq .userAdmin.Status 0}}checked{{end}}>
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="phone" class="layui-form-label">姓名</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="real_name" name="real_name" value="{{.userAdmin.RealName}}" autocomplete="off" class="layui-input" lay-verify="">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="phone" class="layui-form-label">手机</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="mobile" name="mobile" value="{{.userAdmin.Mobile}}" autocomplete="off" class="layui-input" lay-verify="">
-                </div>
-                <div class="layui-form-mid layui-word-aux">
-
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label for="L_email" class="layui-form-label">邮箱</label>
-                <div class="layui-input-inline">
-                    <input type="text" id="email" name="email" value="{{.userAdmin.Email}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="code" name="code" value="{{.record.Code}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -104,7 +46,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="edit" lay-submit="">修改</button>
+                <button class="layui-btn" lay-filter="add" lay-submit="">修改</button>
             </div>
         </form>
     </div>
@@ -118,23 +60,12 @@
                 canSubmit = true;
 
             //监听提交
-            form.on('submit(edit)',
+            form.on('submit(add)',
                 function (data) {
 
-                    if ($("#account").val().length <= 0) {
-                        layer.msg("登录名不能为空", {icon: 2});
+                    if ($("#name").val().length <= 0) {
+                        layer.msg("省名称不能为空", {icon: 2});
                         return false;
-                    }
-                    var password = $("#password").val();
-                    if (password.length > 0) {
-                        if (password.length < 6) {
-                            layer.msg("密码至少6个字符", {icon: 2});
-                            return false;
-                        }
-                        if (password != $("#repassword").val()) {
-                            layer.msg("两次密码输入不一致", {icon: 2});
-                            return false;
-                        }
                     }
 
                     if (!canSubmit) return false;
@@ -142,9 +73,9 @@
                     canSubmit = false;
 
                     $.ajax({
-                        url: "/admin/user_admin/edit",
+                        url: "/admin/province/edit",
                         type: "POST",
-                        data: $("#edit-form").serialize(),
+                        data: $("#data-form").serialize(),
                         dataType: "json",
                         success: function (res) {
 

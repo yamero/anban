@@ -11,9 +11,9 @@ import (
 // 获取管理员信息
 func GetUserAdminInfo(id int64) *models.UserAdmin {
 	o := orm.NewOrm()
-	userAdmin := models.UserAdmin{}
-	o.QueryTable("UserAdmin").Filter("id", id).One(&userAdmin)
-	return &userAdmin
+	userAdmin := &models.UserAdmin{}
+	o.QueryTable("UserAdmin").Filter("id", id).One(userAdmin)
+	return userAdmin
 }
 
 // 获取管理员列表

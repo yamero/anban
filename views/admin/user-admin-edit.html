@@ -21,15 +21,15 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" id="edit-form">
+        <form class="layui-form" id="data-form">
             {{.xsrfdata}}
-            <input type="hidden" name="id" value="{{.userAdmin.Id}}">
+            <input type="hidden" name="id" value="{{.record.Id}}">
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
                     <span class="x-red">*</span>登录名
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="account" name="account" value="{{.userAdmin.Account}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="account" name="account" value="{{.record.Account}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -68,8 +68,8 @@
             <div class="layui-form-item">
                 <label for="phone" class="layui-form-label">状态</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="status" value="1" title="正常" {{if eq .userAdmin.Status 1}}checked{{end}}>
-                    <input type="radio" name="status" value="0" title="禁用" {{if eq .userAdmin.Status 0}}checked{{end}}>
+                    <input type="radio" name="status" value="1" title="正常" {{if eq .record.Status 1}}checked{{end}}>
+                    <input type="radio" name="status" value="0" title="禁用" {{if eq .record.Status 0}}checked{{end}}>
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -78,7 +78,7 @@
             <div class="layui-form-item">
                 <label for="phone" class="layui-form-label">姓名</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="real_name" name="real_name" value="{{.userAdmin.RealName}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="real_name" name="real_name" value="{{.record.RealName}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -87,7 +87,7 @@
             <div class="layui-form-item">
                 <label for="phone" class="layui-form-label">手机</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="mobile" name="mobile" value="{{.userAdmin.Mobile}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="mobile" name="mobile" value="{{.record.Mobile}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -96,7 +96,7 @@
             <div class="layui-form-item">
                 <label for="L_email" class="layui-form-label">邮箱</label>
                 <div class="layui-input-inline">
-                    <input type="text" id="email" name="email" value="{{.userAdmin.Email}}" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="email" name="email" value="{{.record.Email}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -144,7 +144,7 @@
                     $.ajax({
                         url: "/admin/user_admin/edit",
                         type: "POST",
-                        data: $("#edit-form").serialize(),
+                        data: $("#data-form").serialize(),
                         dataType: "json",
                         success: function (res) {
 

@@ -21,7 +21,7 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" id="add-form">
+        <form class="layui-form" id="data-form">
             {{.xsrfdata}}
             <div class="layui-form-item">
                 <label for="username" class="layui-form-label">
@@ -74,7 +74,7 @@
                     $.ajax({
                         url: "/admin/province/add",
                         type: "POST",
-                        data: $("#add-form").serialize(),
+                        data: $("#data-form").serialize(),
                         dataType: "json",
                         success: function (res) {
 

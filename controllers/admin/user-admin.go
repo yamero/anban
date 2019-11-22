@@ -55,7 +55,7 @@ func (c *UserAdminController) DoAdd() {
 
 func (c *UserAdminController) Edit() {
 	id, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 64)
-	c.Data["userAdmin"] = service.GetUserAdminInfo(id)
+	c.Data["record"] = service.GetUserAdminInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/user-admin-edit.html"
 }
@@ -104,10 +104,10 @@ func (c *UserAdminController) ShowList() {
 	p := map[string]interface{}{}
 	p["curPage"] = curPage
 	p["perCount"] = perCount
-	totalCount, userAdminList := service.GetUserAdminList(p)
+	totalCount, recordList := service.GetUserAdminList(p)
 	paginator := utils.NewPaginator(int(totalCount), perCount, 5, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
-	c.Data["userAdminList"] = userAdminList
+	c.Data["recordList"] = recordList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/user-admin-list.html"
 }

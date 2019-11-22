@@ -26,7 +26,7 @@ func init() {
 
 	beego.Router("/admin/province", &admin.RegionController{}, "get:ShowProvinceList;post:ShowProvinceList")
 	beego.Router("/admin/province/add", &admin.RegionController{}, "get:AddProvince;post:DoAddProvince")
-	beego.Router("/admin/province/edit", &admin.RegionController{}, "get:EditProvince;post:DoEditProvince")
+	beego.Router("/admin/province/edit/?:id", &admin.RegionController{}, "get:EditProvince;post:DoEditProvince")
 
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
