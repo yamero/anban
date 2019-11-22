@@ -24,9 +24,13 @@ func init() {
 	beego.Router("/admin/user_admin/edit/?:id", &admin.UserAdminController{}, "get:Edit;post:DoEdit")
 	beego.Router("/admin/user_admin/status_switch", &admin.UserAdminController{}, "post:StatusSwitch")
 
-	beego.Router("/admin/province", &admin.RegionController{}, "get:ShowProvinceList;post:ShowProvinceList")
-	beego.Router("/admin/province/add", &admin.RegionController{}, "get:AddProvince;post:DoAddProvince")
-	beego.Router("/admin/province/edit/?:id", &admin.RegionController{}, "get:EditProvince;post:DoEditProvince")
+	beego.Router("/admin/province", &admin.ProvinceController{}, "get:ShowProvinceList;post:ShowProvinceList")
+	beego.Router("/admin/province/add", &admin.ProvinceController{}, "get:AddProvince;post:DoAddProvince")
+	beego.Router("/admin/province/edit/?:id", &admin.ProvinceController{}, "get:EditProvince;post:DoEditProvince")
+
+	beego.Router("/admin/city", &admin.CityController{}, "get:ShowCityList;post:ShowCityList")
+	beego.Router("/admin/city/add", &admin.CityController{}, "get:AddCity;post:DoAddCity")
+	beego.Router("/admin/city/edit/?:id", &admin.CityController{}, "get:EditCity;post:DoEditCity")
 
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")

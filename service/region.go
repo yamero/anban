@@ -12,7 +12,7 @@ import (
 func GetRegionInfo(id int64) *models.Region {
 	o := orm.NewOrm()
 	region := &models.Region{}
-	o.QueryTable("Region").Filter("id", id).One(region)
+	o.QueryTable("Region").Filter("id", id).RelatedSel("Parent").One(region)
 	return region
 }
 
@@ -49,6 +49,10 @@ func GetRegionList(p map[string]interface{}) (int64, []*models.Region) {
 	var provinceList []*models.Region
 	o := orm.NewOrm()
 	qs := o.QueryTable("Region").Filter("level", p["level"].(int))
+	relation, _ := p["relation"].(bool)
+	if relation {
+		qs = qs.RelatedSel("Parent")
+	}
 	totalCount, _ := qs.Count()
 	curPage, ok := p["curPage"]
 	perCount, _ := p["perCount"]
