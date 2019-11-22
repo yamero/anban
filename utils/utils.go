@@ -54,7 +54,7 @@ type Paginator struct {
 
 func NewPaginator(totalCount int, perCount int, symPageCount int, curPage int) *Paginator {
 	totalPageCount := int(math.Ceil(float64(totalCount) / float64(perCount)))
-	total := 2*symPageCount + 1
+	total := 2 * symPageCount + 1
 	return &Paginator{
 		CurrentPage:        curPage,
 		TotalCount:         totalCount,
@@ -80,8 +80,8 @@ func (p *Paginator) GetPageHtml() string {
 		start = 1
 		end = p.Total
 	}
-	if p.CurrentPage >= p.TotalPageCount - p.SymmetricPageCount {
-		start = p.TotalPageCount - p.Total
+	if p.CurrentPage >= p.TotalPageCount-p.SymmetricPageCount {
+		start = p.TotalPageCount - p.Total + 1
 		end = p.TotalPageCount
 	}
 	if p.TotalPageCount <= p.Total {

@@ -3,6 +3,7 @@ package admin
 import (
 	"anban/service"
 	"anban/utils"
+	"github.com/astaxie/beego"
 	"html/template"
 	"strconv"
 )
@@ -70,13 +71,14 @@ func (c *RegionController) ShowProvinceList() {
 	if curPage <= 0 {
 		curPage = 1
 	}
-	perCount := 1
+	perCount, _ := beego.AppConfig.Int("percount")
+	symPageCount, _ := beego.AppConfig.Int("symmetricpagecount")
 	p := map[string]interface{}{}
 	p["curPage"] = curPage
 	p["perCount"] = perCount
 	p["level"] = 1
 	totalCount, recordList := service.GetRegionList(p)
-	paginator := utils.NewPaginator(int(totalCount), perCount, 5, curPage)
+	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())

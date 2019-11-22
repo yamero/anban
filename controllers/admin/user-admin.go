@@ -4,6 +4,7 @@ import (
 	"anban/models"
 	"anban/service"
 	"anban/utils"
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"html/template"
 	"strconv"
@@ -100,12 +101,13 @@ func (c *UserAdminController) ShowList() {
 	if curPage <= 0 {
 		curPage = 1
 	}
-	perCount := 1
+	perCount, _ := beego.AppConfig.Int("percount")
+	symPageCount, _ := beego.AppConfig.Int("symmetricpagecount")
 	p := map[string]interface{}{}
 	p["curPage"] = curPage
 	p["perCount"] = perCount
 	totalCount, recordList := service.GetUserAdminList(p)
-	paginator := utils.NewPaginator(int(totalCount), perCount, 5, curPage)
+	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
