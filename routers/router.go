@@ -18,8 +18,16 @@ func init() {
 	beego.Router("/admin/login", &admin.UserAdminController{}, "get:Login;post:DoLogin")
 	beego.Router("/admin/logout", &admin.UserAdminController{}, "get:Logout")
 	beego.Router("/admin/welcome", &admin.IndexController{}, "get:Welcome")
+
 	beego.Router("/admin/user_admin", &admin.UserAdminController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/user_admin/add", &admin.UserAdminController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/user_admin/edit/?:id", &admin.UserAdminController{}, "get:Edit;post:DoEdit")
 	beego.Router("/admin/user_admin/status_switch", &admin.UserAdminController{}, "post:StatusSwitch")
+
+	beego.Router("/admin/province", &admin.RegionController{}, "get:ShowProvinceList;post:ShowProvinceList")
+	beego.Router("/admin/province/add", &admin.RegionController{}, "get:AddProvince;post:DoAddProvince")
+	beego.Router("/admin/province/edit", &admin.RegionController{}, "get:EditProvince;post:DoEditProvince")
+
+	// 与设备通信的路由
+	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }

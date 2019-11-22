@@ -4,7 +4,6 @@ import (
 	"anban/models"
 	"anban/service"
 	"anban/utils"
-	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"html/template"
 	"strconv"
@@ -24,7 +23,6 @@ func (c *UserAdminController) Add() {
 func (c *UserAdminController) DoAdd() {
 	var res *utils.ResJsonStruct
 	input := c.Input()
-	logs.Info("请求数据：", c.GetStrings(""))
 	if input["account"][0] == "" {
 		res = utils.ResJson(0, "登录名不能为空", "")
 		c.Data["json"] = res
