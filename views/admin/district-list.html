@@ -33,6 +33,25 @@
                 <div class="layui-card-body">
                     <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/district">
                         {{.xsrfdata}}
+                        <div class="layui-inline layui-show-xs-block">
+                            <select id="province" name="province_id" lay-verify="" lay-filter="province">
+                                <option value="0">请选择省</option>
+                                {{range .provinceList}}
+                                    <option value="{{.Id}}" {{if eq $.provinceId .Id}}selected{{end}}>{{.Name}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <select id="city" name="parent_id" lay-verify="">
+                                <option value="0">请选择市</option>
+                                {{range .cityList}}
+                                    <option value="{{.Id}}" {{if eq $.parentId .Id}}selected{{end}}>{{.Name}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
                         <input type="hidden" name="p" id="cur-page" value="1">
                     </form>
                 </div>
@@ -84,12 +103,39 @@
 <script>
 
     layui.use(["form"], function () {
+
         $ = layui.jquery;
+        var form = layui.form;
+
         $(".page").on("click", "a", function () {
             var n = $(this).attr("page-num");
             $("#cur-page").val(n);
             $("#search-form").submit();
         });
+
+        form.on("submit(search)", function () {
+            if ($("#province").val() > 0 && $("#city").val() <= 0) {
+                layer.msg("请选择市再进行搜索", {icon: 2});
+                return false;
+            }
+            $("#cur-page").val(1);
+            $("#search-form").submit();
+        });
+
+        form.on("select(province)", function (data) {
+            var id = data.value;
+            var xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
+            $.ajax({
+                url: "/common/get_region_by_parent",
+                type: "POST",
+                data: {_xsrf: xsrf, id: id, level: 2},
+                success: function (res) {
+                    $("#city").html(res);
+                    form.render("select");
+                }
+            });
+        });
+
     });
     
     var canSubmit = true;

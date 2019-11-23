@@ -53,6 +53,10 @@ func GetRegionList(p map[string]interface{}) (int64, []*models.Region) {
 	if relation {
 		qs = qs.RelatedSel()
 	}
+	parentId, _ := p["parent_id"].(int64)
+	if parentId > 0 {
+		qs = qs.Filter("parent_id", parentId)
+	}
 	totalCount, _ := qs.Count()
 	curPage, ok := p["curPage"]
 	perCount, _ := p["perCount"]

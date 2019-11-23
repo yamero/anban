@@ -86,10 +86,16 @@ func (c *CityController) ShowCityList() {
 	p["perCount"] = perCount
 	p["level"] = 2
 	p["relation"] = true
+	p["parent_id"] = utils.Atoi64(c.GetString("parent_id"))
+	c.Data["parentId"] = p["parent_id"]
 	totalCount, recordList := service.GetRegionList(p)
 	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
+	p = map[string]interface{}{}
+	p["level"] = 1
+	_, provinceList := service.GetRegionList(p)
+	c.Data["provinceList"] = provinceList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/city-list.html"
 }

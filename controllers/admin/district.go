@@ -101,10 +101,25 @@ func (c *DistrictController) ShowDistrictList() {
 	p["perCount"] = perCount
 	p["level"] = 3
 	p["relation"] = true
+	p["parent_id"] = utils.Atoi64(c.GetString("parent_id"))
+	c.Data["parentId"] = p["parent_id"]
+	provinceId := utils.Atoi64(c.GetString("province_id"))
+	c.Data["provinceId"] = provinceId
 	totalCount, recordList := service.GetRegionList(p)
 	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
+	p = map[string]interface{}{}
+	p["level"] = 1
+	_, provinceList := service.GetRegionList(p)
+	c.Data["provinceList"] = provinceList
+	if provinceId > 0 {
+		p = map[string]interface{}{}
+		p["level"] = 2
+		p["parent_id"] = provinceId
+		_, cityList := service.GetRegionList(p)
+		c.Data["cityList"] = cityList
+	}
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/district-list.html"
 }
