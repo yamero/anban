@@ -43,7 +43,7 @@ func (c *CityController) DoAddCity() {
 }
 
 func (c *CityController) EditCity() {
-	id, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 64)
+	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
 	p := map[string]interface{}{}
 	p["level"] = 1
 	_, provinceList := service.GetRegionList(p)

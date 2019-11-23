@@ -3,7 +3,9 @@ package admin
 import (
 	"anban/models"
 	"anban/service"
+	"anban/utils"
 	"github.com/astaxie/beego"
+	"strconv"
 )
 
 type CommonController struct {
@@ -11,9 +13,11 @@ type CommonController struct {
 }
 
 func (c *CommonController) GetRegionListByParent() {
-	id, _ := c.GetInt64("id")
-	level, _ := c.GetInt("level")
+	id := utils.Atoi64(c.GetString("id"))
+	level, _ := strconv.Atoi(c.GetString("level"))
 	c.Data["levelShow"] = "请选择" + models.RegionLevel[level]
-	c.Data["regionList"] = service.GetRegionListByParent(id)
+	if id > 0 {
+		c.Data["regionList"] = service.GetRegionListByParent(id)
+	}
 	c.TplName = "admin/common-option.html"
 }

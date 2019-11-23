@@ -66,6 +66,9 @@ func NewPaginator(totalCount int, perCount int, symPageCount int, curPage int) *
 }
 
 func (p *Paginator) GetPageHtml() string {
+	if p.TotalPageCount <= 1 {
+		return ""
+	}
 	prePage := p.CurrentPage - 1
 	if prePage <= 1 {
 		prePage = 1

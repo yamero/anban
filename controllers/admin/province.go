@@ -39,7 +39,7 @@ func (c *ProvinceController) DoAddProvince() {
 }
 
 func (c *ProvinceController) EditProvince() {
-	id, _ := strconv.ParseInt(c.Ctx.Input.Param(":id"), 10, 64)
+	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
 	c.Data["record"] = service.GetRegionInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/province-edit.html"

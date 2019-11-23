@@ -37,6 +37,10 @@ func init() {
 	beego.Router("/admin/district/add", &admin.DistrictController{}, "get:AddDistrict;post:DoAddDistrict")
 	beego.Router("/admin/district/edit/?:id", &admin.DistrictController{}, "get:EditDistrict;post:DoEditDistrict")
 
+	beego.Router("/admin/school", &admin.SchoolController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/school/add", &admin.SchoolController{}, "get:Add;post:DoAdd")
+	beego.Router("/admin/school/edit/?:id", &admin.SchoolController{}, "get:Edit;post:DoEdit")
+
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }
