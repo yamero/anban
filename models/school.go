@@ -1,5 +1,6 @@
 package models
 
+// 学校
 type School struct {
 	Id int64 `orm:"description(自增主键)"`
 	Name string `orm:"description(学校名称)"`
