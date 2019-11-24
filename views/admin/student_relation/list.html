@@ -84,8 +84,7 @@
     layui.use(["form"], function () {
 
         $ = layui.jquery;
-        var form = layui.form,
-            xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
+        var form = layui.form;
 
         $(".page").on("click", "a", function () {
             var n = $(this).attr("page-num");
@@ -96,33 +95,6 @@
         form.on("submit(search)", function () {
             $("#cur-page").val(1);
             $("#search-form").submit();
-        });
-
-        form.on("select(province)", function (data) {
-            var id = data.value;
-            $.ajax({
-                url: "/common/get_region_by_parent",
-                type: "POST",
-                data: {_xsrf: xsrf, id: id, level: 2},
-                success: function (res) {
-                    $("#city").html(res);
-                    $("#district").html("<option value='0'>请选择区/县</option>");
-                    form.render("select");
-                }
-            });
-        });
-
-        form.on("select(city)", function (data) {
-            var id = data.value;
-            $.ajax({
-                url: "/common/get_region_by_parent",
-                type: "POST",
-                data: {_xsrf: xsrf, id: id, level: 3},
-                success: function (res) {
-                    $("#district").html(res);
-                    form.render("select");
-                }
-            });
         });
 
     });

@@ -6,7 +6,7 @@ import (
 	"net/url"
 )
 
-// 获取学校信息
+// 获取关系信息
 func GetStudentRelationInfo(id int64) *models.StudentRelation {
 	o := orm.NewOrm()
 	studentRelation := &models.StudentRelation{}
