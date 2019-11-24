@@ -9,6 +9,15 @@ import (
 func init() {
 	dataSource := beego.AppConfig.String("database::datasource")
 	orm.RegisterDataBase("default", "mysql", dataSource)
-	orm.RegisterModel(new(UserAdmin), new(UserAdminRole), new(Region), new(School), new(StudentRelation), new(Course))
+	orm.RegisterModel(
+		new(UserAdmin),
+		new(UserAdminRole),
+		new(Region),
+		new(School),
+		new(StudentRelation),
+		new(Course),
+		new(ArticleType),
+		new(Article),
+	)
 	orm.RunSyncdb("default", false, true)
 }

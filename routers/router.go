@@ -49,6 +49,10 @@ func init() {
 	beego.Router("/admin/course/add", &admin.CourseController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/course/edit/?:id", &admin.CourseController{}, "get:Edit;post:DoEdit")
 
+	beego.Router("/admin/article_type", &admin.ArticleTypeController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/article_type/add", &admin.ArticleTypeController{}, "get:Add;post:DoAdd")
+	beego.Router("/admin/article_type/edit/?:id", &admin.ArticleTypeController{}, "get:Edit;post:DoEdit")
+
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }
