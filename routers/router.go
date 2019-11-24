@@ -14,11 +14,12 @@ func init() {
     beego.Router("/main", &controllers.MainController{})
 
 	// 后端路由
-	beego.Router("/common/get_region_by_parent", &admin.CommonController{}, "post:GetRegionListByParent")
+	beego.Router("/common/get_region_by_parent", &controllers.CommonController{}, "post:GetRegionListByParent")
 	beego.Router("/admin", &admin.IndexController{}, "get:Index")
 	beego.Router("/admin/login", &admin.UserAdminController{}, "get:Login;post:DoLogin")
 	beego.Router("/admin/logout", &admin.UserAdminController{}, "get:Logout")
 	beego.Router("/admin/welcome", &admin.IndexController{}, "get:Welcome")
+	beego.Router("/admin/editor_upload", &admin.UploadController{}, "post:Editor")
 
 	beego.Router("/admin/user_admin", &admin.UserAdminController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/user_admin/add", &admin.UserAdminController{}, "get:Add;post:DoAdd")
@@ -52,6 +53,10 @@ func init() {
 	beego.Router("/admin/article_type", &admin.ArticleTypeController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/article_type/add", &admin.ArticleTypeController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/article_type/edit/?:id", &admin.ArticleTypeController{}, "get:Edit;post:DoEdit")
+
+	beego.Router("/admin/article", &admin.ArticleController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/article/add", &admin.ArticleController{}, "get:Add;post:DoAdd")
+	beego.Router("/admin/article/edit/?:id", &admin.ArticleController{}, "get:Edit;post:DoEdit")
 
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")

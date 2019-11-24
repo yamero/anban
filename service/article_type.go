@@ -9,17 +9,17 @@ import (
 // 获取文章分类信息
 func GetArticleTypeInfo(id int64) *models.ArticleType {
 	o := orm.NewOrm()
-	studentRelation := &models.ArticleType{}
-	o.QueryTable("ArticleType").Filter("id", id).One(studentRelation)
-	return studentRelation
+	articleType := &models.ArticleType{}
+	o.QueryTable("ArticleType").Filter("id", id).One(articleType)
+	return articleType
 }
 
 // 添加文章分类信息
 func AddArticleType(input url.Values) (int64, error) {
 	o := orm.NewOrm()
-	studentRelation := &models.ArticleType{}
-	studentRelation.Name = input["name"][0]
-	return o.Insert(studentRelation)
+	articleType := &models.ArticleType{}
+	articleType.Name = input["name"][0]
+	return o.Insert(articleType)
 }
 
 // 修改文章分类信息
@@ -32,7 +32,7 @@ func EditArticleType(input url.Values) (int64, error) {
 
 // 获取文章分类列表
 func GetArticleTypeList(p map[string]interface{}) (int64, []*models.ArticleType) {
-	var studentRelationList []*models.ArticleType
+	var articleTypeList []*models.ArticleType
 	o := orm.NewOrm()
 	qs := o.QueryTable("ArticleType")
 	totalCount, _ := qs.Count()
@@ -42,6 +42,6 @@ func GetArticleTypeList(p map[string]interface{}) (int64, []*models.ArticleType)
 		start := perCount.(int) * (curPage.(int) - 1)
 		qs = qs.Limit(perCount, start)
 	}
-	qs.All(&studentRelationList)
-	return totalCount, studentRelationList
+	qs.All(&articleTypeList)
+	return totalCount, articleTypeList
 }
