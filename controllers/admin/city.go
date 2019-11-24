@@ -18,7 +18,7 @@ func (c *CityController) AddCity() {
 	_, provinceList := service.GetRegionList(p)
 	c.Data["provinceList"] = provinceList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/city-add.html"
+	c.TplName = "admin/city/add.html"
 }
 
 func (c *CityController) DoAddCity() {
@@ -50,7 +50,7 @@ func (c *CityController) EditCity() {
 	c.Data["provinceList"] = provinceList
 	c.Data["record"] = service.GetRegionInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/city-edit.html"
+	c.TplName = "admin/city/edit.html"
 }
 
 func (c *CityController) DoEditCity() {
@@ -97,5 +97,5 @@ func (c *CityController) ShowCityList() {
 	_, provinceList := service.GetRegionList(p)
 	c.Data["provinceList"] = provinceList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/city-list.html"
+	c.TplName = "admin/city/list.html"
 }

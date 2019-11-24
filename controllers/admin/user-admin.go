@@ -18,7 +18,7 @@ type UserAdminController struct {
 
 func (c *UserAdminController) Add() {
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/user-admin-add.html"
+	c.TplName = "admin/user_admin/add.html"
 }
 
 func (c *UserAdminController) DoAdd() {
@@ -58,7 +58,7 @@ func (c *UserAdminController) Edit() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
 	c.Data["record"] = service.GetUserAdminInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/user-admin-edit.html"
+	c.TplName = "admin/user_admin/edit.html"
 }
 
 func (c *UserAdminController) DoEdit() {
@@ -111,7 +111,7 @@ func (c *UserAdminController) ShowList() {
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/user-admin-list.html"
+	c.TplName = "admin/user_admin/list.html"
 }
 
 func (c *UserAdminController) StatusSwitch() {

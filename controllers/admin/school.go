@@ -18,7 +18,7 @@ func (c *SchoolController) Add() {
 	_, provinceList := service.GetRegionList(p)
 	c.Data["provinceList"] = provinceList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/school-add.html"
+	c.TplName = "admin/school/add.html"
 }
 
 func (c *SchoolController) DoAdd() {
@@ -77,7 +77,7 @@ func (c *SchoolController) Edit() {
 	_, districtList := service.GetRegionList(p)
 	c.Data["districtList"] = districtList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/school-edit.html"
+	c.TplName = "admin/school/edit.html"
 }
 
 func (c *SchoolController) DoEdit() {
@@ -165,5 +165,5 @@ func (c *SchoolController) ShowList() {
 		c.Data["districtList"] = districtList
 	}
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/school-list.html"
+	c.TplName = "admin/school/list.html"
 }

@@ -14,7 +14,7 @@ type ProvinceController struct {
 
 func (c *ProvinceController) AddProvince() {
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/province-add.html"
+	c.TplName = "admin/province/add.html"
 }
 
 func (c *ProvinceController) DoAddProvince() {
@@ -42,7 +42,7 @@ func (c *ProvinceController) EditProvince() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
 	c.Data["record"] = service.GetRegionInfo(id)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/province-edit.html"
+	c.TplName = "admin/province/edit.html"
 }
 
 func (c *ProvinceController) DoEditProvince() {
@@ -82,5 +82,5 @@ func (c *ProvinceController) ShowProvinceList() {
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/province-list.html"
+	c.TplName = "admin/province/list.html"
 }
