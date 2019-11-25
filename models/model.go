@@ -19,6 +19,7 @@ func init() {
 		new(ArticleType),
 		new(Article),
 		new(Class),
+		new(Student),
 	)
 	orm.RunSyncdb("default", false, true)
 }

@@ -88,11 +88,11 @@
             $ = layui.jquery;
             var form = layui.form,
                 layer = layui.layer,
-                canSubmit = true;
+                canSubmit = true,
+                xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
 
             form.on("select(province)", function (data) {
                 var id = data.value;
-                var xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
                 $.ajax({
                     url: "/common/get_region_by_parent",
                     type: "POST",

@@ -21,3 +21,15 @@ func (c *CommonController) GetRegionListByParent() {
 	}
 	c.TplName = "admin/common-option.html"
 }
+
+func (c *CommonController) GetClassBySchool() {
+	id := utils.Atoi64(c.GetString("id"))
+	if id > 0 {
+		p := map[string]interface{}{}
+		p["schoolId"] = id
+		p["relation"] = false
+		_, classList := service.GetClassList(p)
+		c.Data["classList"] = classList
+	}
+	c.TplName = "admin/common-option-class.html"
+}
