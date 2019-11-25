@@ -42,6 +42,10 @@ func init() {
 	beego.Router("/admin/school/add", &admin.SchoolController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/school/edit/?:id", &admin.SchoolController{}, "get:Edit;post:DoEdit")
 
+	beego.Router("/admin/class", &admin.ClassController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/class/add", &admin.ClassController{}, "get:Add;post:DoAdd")
+	beego.Router("/admin/class/edit/?:id", &admin.ClassController{}, "get:Edit;post:DoEdit")
+
 	beego.Router("/admin/student_relation", &admin.StudentRelationController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/student_relation/add", &admin.StudentRelationController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/student_relation/edit/?:id", &admin.StudentRelationController{}, "get:Edit;post:DoEdit")

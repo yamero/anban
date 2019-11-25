@@ -98,6 +98,11 @@
 
     layui.use(['form', 'layer'], function () {
 
+        $ = layui.jquery;
+        var form = layui.form,
+            layer = layui.layer,
+            canSubmit = true;
+
         var E = window.wangEditor;
         var editor = new E('#content');
         editor.customConfig.uploadImgServer = '/admin/editor_upload';
@@ -105,18 +110,10 @@
         editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024;
         editor.customConfig.uploadImgHooks = {
             fail: function (xhr, editor, result) {
-                layui.use(['layer'], function () {
-                    var layer = layui.layer;
-                    layer.msg(result.msg, {icon: 2});
-                });
+                layer.msg(result.msg, {icon: 2});
             }
         };
         editor.create();
-
-        $ = layui.jquery;
-        var form = layui.form,
-            layer = layui.layer,
-            canSubmit = true;
 
         //监听提交
         form.on('submit(do-submit)', function (data) {
