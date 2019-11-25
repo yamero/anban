@@ -71,6 +71,22 @@
             </div>
             <textarea id="article-content" name="content" style="display: none;"></textarea>
             <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    创建时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{{.record.CreatedShow}}" disabled class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    最后更新时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" value="{{.record.UpdatedShow}}" disabled class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button class="layui-btn" lay-filter="do-submit" lay-submit="">修改</button>
             </div>

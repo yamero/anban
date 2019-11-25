@@ -6,6 +6,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"net/url"
 	"strconv"
+	"time"
 )
 
 // 获取管理员信息
@@ -13,6 +14,8 @@ func GetUserAdminInfo(id int64) *models.UserAdmin {
 	o := orm.NewOrm()
 	userAdmin := &models.UserAdmin{}
 	o.QueryTable("UserAdmin").Filter("id", id).One(userAdmin)
+	userAdmin.CreatedShow = userAdmin.Created.Format("2006-01-02 15:04:05")
+	userAdmin.UpdatedShow = userAdmin.Updated.Format("2006-01-02 15:04:05")
 	return userAdmin
 }
 
@@ -68,5 +71,6 @@ func EditUserAdmin(input url.Values) (int64, error) {
 	p["email"] = input["email"][0]
 	p["real_name"] = input["real_name"][0]
 	p["status"] = input["status"][0]
+	p["updated"] = time.Now().Format("2006-01-02 15:04:05")
 	return o.QueryTable("UserAdmin").Filter("id", input["id"][0]).Update(p)
 }
