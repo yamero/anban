@@ -33,6 +33,17 @@
                 <div class="layui-card-body">
                     <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/article">
                         {{.xsrfdata}}
+                        <div class="layui-inline layui-show-xs-block">
+                            <select name="article_type_id" lay-verify="">
+                                <option value="0">请选择分类</option>
+                                {{range .articleTypeList}}
+                                    <option value="{{.Id}}" {{if eq $.articleTypeId .Id}}selected{{end}}>{{.Name}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
                         <input type="hidden" name="p" id="cur-page" value="1">
                     </form>
                 </div>

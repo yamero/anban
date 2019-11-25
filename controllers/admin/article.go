@@ -100,16 +100,22 @@ func (c *ArticleController) ShowList() {
 	if curPage <= 0 {
 		curPage = 1
 	}
+	var articleTypeId int64
+	c.Ctx.Input.Bind(&articleTypeId, "article_type_id")
 	perCount, _ := beego.AppConfig.Int("percount")
 	symPageCount, _ := beego.AppConfig.Int("symmetricpagecount")
 	p := map[string]interface{}{}
 	p["relation"] = true
 	p["curPage"] = curPage
 	p["perCount"] = perCount
+	p["articleTypeId"] = articleTypeId
 	totalCount, recordList := service.GetArticleList(p)
 	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
+	c.Data["articleTypeId"] = articleTypeId
+	_, articleTypeList := service.GetArticleTypeList(map[string]interface{}{})
+	c.Data["articleTypeList"] = articleTypeList
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/article/list.html"
 }

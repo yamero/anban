@@ -50,6 +50,10 @@ func GetArticleList(p map[string]interface{}) (int64, []*models.Article) {
 	if relation {
 		qs = qs.RelatedSel()
 	}
+	articleTypeId, _ := p["articleTypeId"].(int64)
+	if articleTypeId > 0 {
+		qs = qs.Filter("article_type_id", articleTypeId)
+	}
 	totalCount, _ := qs.Count()
 	curPage, ok := p["curPage"]
 	perCount, _ := p["perCount"]
