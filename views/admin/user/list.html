@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+<head>
+    <meta charset="UTF-8">
+    <title>安伴后台管理系统-学生列表</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <link rel="stylesheet" href="/static/css/font.css">
+    <link rel="stylesheet" href="/static/css/xadmin.css">
+    <script src="/static/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/js/xadmin.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/static/js/base64.decode.js"></script>
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+          <span class="layui-breadcrumb">
+            <a href="/admin">首页</a>
+            <a><cite>学生</cite></a>
+          </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="/admin/student" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/student">
+                        {{.xsrfdata}}
+                        <div class="layui-inline layui-show-xs-block">
+                            <select id="school" name="school_id" lay-filter="school" lay-verify="">
+                                <option value="0">请选择学校</option>
+                                {{range .schoolList}}
+                                    <option value="{{.Id}}" {{if eq $.schoolId .Id}}selected{{end}}>{{.Name}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <select id="class" name="class_id" lay-verify="">
+                                <option value="0">请选择班级</option>
+                                {{range .classList}}
+                                    <option value="{{.Id}}" {{if eq $.classId .Id}}selected{{end}}>{{.Name}}</option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="sn" value="{{.sn}}" placeholder="请输入唯一标识" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="real_name" value="{{.realName}}" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <input type="text" name="id_card" value="{{.idCard}}" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-inline layui-show-xs-block">
+                            <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+                        </div>
+                        <input type="hidden" name="p" id="cur-page" value="1">
+                    </form>
+                </div>
+                <div class="layui-card-header">
+                    {{/*<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>*/}}
+                    <button class="layui-btn" onclick="xadmin.open('添加学生','/admin/student/add')"><i class="layui-icon"></i>添加</button>
+                </div>
+                <div class="layui-card-body ">
+                    <table class="layui-table layui-form">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>学校</th>
+                            <th>班级</th>
+                            <th>唯一标识</th>
+                            <th>姓名</th>
+                            <th>身份证号</th>
+                            <th>创建时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </thead>
+                        <tbody>
+                        {{range .recordList}}
+                            <tr>
+                                <td>{{.Id}}</td>
+                                <td>{{.School.Name}}</td>
+                                <td>{{.Class.Name}}</td>
+                                <td>{{.Sn}}</td>
+                                <td>{{.RealName}}</td>
+                                <td>{{.IdCard}}</td>
+                                <td>{{.CreatedShow}}</td>
+                                <td class="td-status">
+                                    {{if eq .Status 1}}
+                                        <span class="layui-btn layui-btn-normal layui-btn-mini">{{.StatusShow}}</span>
+                                    {{else}}
+                                        <span class="layui-btn layui-btn-disabled layui-btn-mini">{{.StatusShow}}</span>
+                                    {{end}}
+                                </td>
+                                <td class="td-manage">
+                                    <a title="编辑" onclick="xadmin.open('编辑','/admin/student/edit/{{.Id}}')" href="javascript:;">
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {{else}}
+                            <tr>
+                                <td colspan="100" style="text-align: center;font-weight: bold;color: #ff6666;">没有数据</td>
+                            </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="layui-card-body ">
+                    <div class="page">
+                        <div>
+                            {{str2html .paginator}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    layui.use(["form"], function () {
+
+        $ = layui.jquery;
+        var form = layui.form,
+            xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
+
+        $(".page").on("click", "a", function () {
+            var n = $(this).attr("page-num");
+            $("#cur-page").val(n);
+            $("#search-form").submit();
+        });
+
+        form.on("submit(search)", function () {
+            $("#cur-page").val(1);
+            $("#search-form").submit();
+        });
+
+        form.on("select(school)", function (data) {
+            var id = data.value;
+            $.ajax({
+                url: "/common/get_class_by_school",
+                type: "POST",
+                data: {_xsrf: xsrf, id: id},
+                success: function (res) {
+                    $("#class").html(res);
+                    form.render("select");
+                }
+            });
+        });
+
+    });
+
+</script>
+</html>

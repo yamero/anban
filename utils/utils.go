@@ -66,8 +66,13 @@ func NewPaginator(totalCount int, perCount int, symPageCount int, curPage int) *
 }
 
 func (p *Paginator) GetPageHtml() string {
-	if p.TotalPageCount <= 1 {
+	if p.TotalPageCount <= 0 {
 		return ""
+	}
+	h := fmt.Sprintf("<span style=\"margin-right:10px;border:none;\">共 %d 页</span>", p.TotalPageCount)
+	if p.TotalPageCount == 1 {
+		h += fmt.Sprintf("<span style=\"margin-left:10px;border:none;\">共 %d 条数据</span>", p.TotalCount)
+		return h
 	}
 	prePage := p.CurrentPage - 1
 	if prePage <= 1 {
@@ -91,7 +96,7 @@ func (p *Paginator) GetPageHtml() string {
 		start = 1
 		end = p.TotalPageCount
 	}
-	h := fmt.Sprintf("<a class=\"prev\" href=\"javascript:void(0)\" page-num=\"%d\">&lt;&lt;</a>", prePage)
+	h += fmt.Sprintf("<a class=\"prev\" href=\"javascript:void(0)\" page-num=\"%d\">&lt;&lt;</a>", prePage)
 	for i := start; i <= end; i++ {
 		if i == p.CurrentPage {
 			h += fmt.Sprintf("<span class=\"current\">%d</span>", i)
@@ -100,5 +105,6 @@ func (p *Paginator) GetPageHtml() string {
 		}
 	}
 	h += fmt.Sprintf("<a class=\"next\" href=\"javascript:void(0)\" page-num=\"%d\">&gt;&gt;</a>", nextPage)
+	h += fmt.Sprintf("<span style=\"margin-left:10px;border:none;\">共 %d 条数据</span>", p.TotalCount)
 	return h
 }

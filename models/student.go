@@ -9,6 +9,7 @@ type Student struct {
 	Id          int64     `orm:"description(自增主键)"`
 	Sn          string    `orm:"description(唯一标识，如卡号)"`
 	FamilySn    string    `orm:"description(家庭编号，创建学生时随机生成)"`
+	Users       []*User   `orm:"reverse(many)"`
 	School      *School   `orm:"rel(fk);null;default(0);description(所属学校)"`
 	Class       *Class    `orm:"rel(fk);null;default(0);description(所在班级)"`
 	RealName    string    `orm:"description(真实姓名)"`
