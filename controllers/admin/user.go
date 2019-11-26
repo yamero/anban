@@ -13,60 +13,6 @@ type UserController struct {
 	BaseController
 }
 
-/*func (c *UserController) Add() {
-	p := map[string]interface{}{}
-	p["relation"] = false
-	_, schoolList := service.GetSchoolList(p)
-	c.Data["schoolList"] = schoolList
-	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
-	c.TplName = "admin/user/add.html"
-}
-
-func (c *UserController) DoAdd() {
-	var res *utils.ResJsonStruct
-	input := c.Input()
-	if input["school_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择学校", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["class_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择班级", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["sn"][0] == "" {
-		res = utils.ResJson(0, "请输入唯一标识", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["real_name"][0] == "" {
-		res = utils.ResJson(0, "请输入姓名", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["id_card"][0] == "" {
-		res = utils.ResJson(0, "请输入身份证号", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	_, err := service.Adduser(input)
-	if err != nil {
-		res = utils.ResJson(0, "添加失败", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	res = utils.ResJson(1, "添加成功", "")
-	c.Data["json"] = res
-	c.ServeJSON()
-}*/
-
 func (c *UserController) Edit() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
 	record := service.GetUserInfo(id)
