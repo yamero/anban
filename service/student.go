@@ -24,19 +24,33 @@ func GetStudentInfo(id int64) *models.Student {
 // 添加学生信息
 func AddStudent(input url.Values) (int64, error) {
 	o := orm.NewOrm()
-	schoolId := utils.Atoi64(input["school_id"][0])
-	school := &models.School{Id: schoolId}
-	o.Read(school)
-	classId := utils.Atoi64(input["class_id"][0])
-	class := &models.Class{Id: classId}
-	o.Read(class)
+	school := &models.School{}
+	if _, ok := input["school_id"]; ok {
+		schoolId := utils.Atoi64(input["school_id"][0])
+		school.Id = schoolId
+		o.Read(school)
+	}
+	class := &models.Class{}
+	if _, ok := input["class_id"]; ok {
+		classId := utils.Atoi64(input["class_id"][0])
+		class.Id = classId
+		o.Read(class)
+	}
 	student := &models.Student{}
 	student.School = school
 	student.Class = class
-	student.Sn = input["sn"][0]
-	student.RealName = input["real_name"][0]
-	student.IdCard = input["id_card"][0]
-	student.Status, _ = strconv.Atoi(input["status"][0])
+	if _, ok := input["sn"]; ok {
+		student.Sn = input["sn"][0]
+	}
+	if _, ok := input["real_name"]; ok {
+		student.RealName = input["real_name"][0]
+	}
+	if _, ok := input["id_card"]; ok {
+		student.IdCard = input["id_card"][0]
+	}
+	if _, ok := input["status"]; ok {
+		student.Status, _ = strconv.Atoi(input["status"][0])
+	}
 	student.FamilySn = fmt.Sprintf("%08v", rand.New(rand.NewSource(time.Now().UnixNano())).Int31n(100000000))
 	return o.Insert(student)
 }

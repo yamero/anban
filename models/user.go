@@ -5,7 +5,7 @@ import "time"
 var (
 	UserSubscribeStatus map[int]string
 	UserStatus          map[int]string
-	UserIdentity map[int]string
+	UserIdentity        map[int]string
 )
 
 // 会员
@@ -20,9 +20,12 @@ type User struct {
 	IdCard              string     `orm:"description(身份证号)"`
 	ShortName           string     `orm:"description(简称，如李老师)"`
 	NickName            string     `orm:"description(微信昵称)"`
-	Status              string     `orm:"description(状态，0禁用 1正常)"`
-	Identity            int        `orm:description(身份 0未知 1家长 2老师 3家长&老师 4校领导)`
+	Status              int        `orm:"description(状态，0禁用 1正常)"`
+	StatusShow          string     `orm:"-"`
+	Identity            int        `orm:"description(身份 0未知 1家长 2老师 3家长&老师 4校领导)"`
+	IdentityShow        string     `orm:"-"`
 	SubscribeStatus     int        `orm:"description(关注公众号状态 0未关注 1已关注 2已取消关注)"`
+	SubscribeStatusShow string     `orm:"-"`
 	SubscribeTime       time.Time  `orm:"auto_now_add;type(datetime);description(关注公众号时间)"`
 	SubscribeTimeShow   string     `orm:"-"`
 	UnsubscribeTime     time.Time  `orm:"auto_now_add;type(datetime);description(取消关注公众号时间)"`

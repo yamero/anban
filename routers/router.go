@@ -67,6 +67,9 @@ func init() {
 	beego.Router("/admin/student/add", &admin.StudentController{}, "get:Add;post:DoAdd")
 	beego.Router("/admin/student/edit/?:id", &admin.StudentController{}, "get:Edit;post:DoEdit")
 
+	beego.Router("/admin/user", &admin.UserController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/user/edit/?:id", &admin.UserController{}, "get:Edit;post:DoEdit")
+
 	// 与设备通信的路由
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }
