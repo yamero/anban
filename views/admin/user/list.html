@@ -64,8 +64,6 @@
                             <th>电话</th>
                             <th>身份证号</th>
                             <th>关注状态</th>
-                            <th>关注时间</th>
-                            <th>取消关注时间</th>
                             <th>创建时间</th>
                             <th>状态</th>
                             <th>操作</th>
@@ -80,8 +78,6 @@
                                 <td>{{.Phone}}</td>
                                 <td>{{.IdCard}}</td>
                                 <td>{{.SubscribeStatusShow}}</td>
-                                <td>{{.SubscribeTimeShow}}</td>
-                                <td>{{if ne .UnsubscribeTimeShow "0001-01-01 08:00:00"}}{{.UnsubscribeTimeShow}}{{end}}</td>
                                 <td>{{.CreatedShow}}</td>
                                 <td class="td-status">
                                     {{if eq .Status 1}}

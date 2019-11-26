@@ -78,32 +78,20 @@ func (c *UserController) Edit() {
 func (c *UserController) DoEdit() {
 	var res *utils.ResJsonStruct
 	input := c.Input()
-	if input["school_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择学校", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["class_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择班级", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["sn"][0] == "" {
-		res = utils.ResJson(0, "请输入唯一标识", "")
-		c.Data["json"] = res
-		c.ServeJSON()
-		return
-	}
-	if input["real_name"][0] == "" {
+	if len(input["real_name"][0]) <= 0 {
 		res = utils.ResJson(0, "请输入姓名", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["id_card"][0] == "" {
+	if len(input["id_card"][0]) <= 0 {
 		res = utils.ResJson(0, "请输入身份证号", "")
+		c.Data["json"] = res
+		c.ServeJSON()
+		return
+	}
+	if len(input["phone"][0]) <= 0 {
+		res = utils.ResJson(0, "请输入电话", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return

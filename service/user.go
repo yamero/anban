@@ -13,6 +13,8 @@ func GetUserInfo(id int64) *models.User {
 	o := orm.NewOrm()
 	user := &models.User{}
 	o.QueryTable("User").Filter("id", id).One(user)
+	user.IdentityShow = models.UserIdentity[user.Identity]
+	user.SubscribeStatusShow = models.UserSubscribeStatus[user.SubscribeStatus]
 	user.SubscribeTimeShow = user.SubscribeTime.Format("2006-01-02 15:04:05")
 	user.UnsubscribeTimeShow = user.UnsubscribeTime.Format("2006-01-02 15:04:05")
 	user.CreatedShow = user.Created.Format("2006-01-02 15:04:05")

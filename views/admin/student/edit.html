@@ -131,7 +131,8 @@
         var form = layui.form,
             layer = layui.layer,
             canSubmit = true,
-            xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
+            xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]),
+            idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
 
         form.on("select(school)", function (data) {
             var id = data.value;
@@ -167,6 +168,10 @@
             }
             if ($("#id_card").val().length <= 0) {
                 layer.msg("请输入身份证号", {icon: 2});
+                return false;
+            }
+            if (!idcardReg.test($("#id_card").val())) {
+                layer.msg("请输入正确的身份证号", {icon: 2});
                 return false;
             }
 
