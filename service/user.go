@@ -9,10 +9,18 @@ import (
 )
 
 // 获取会员信息
-func GetUserInfo(id int64) *models.User {
+func GetUserInfo(id int64, p map[string]interface{}) *models.User {
 	o := orm.NewOrm()
 	user := &models.User{}
-	o.QueryTable("User").Filter("id", id).One(user)
+	qs := o.QueryTable("User")
+	relation, _ := p["relation"].(bool)
+	if relation {
+		qs = qs.RelatedSel()
+	}
+	if id > 0 {
+		qs = qs.Filter("id", id)
+	}
+	qs.One(user)
 	user.IdentityShow = models.UserIdentity[user.Identity]
 	user.SubscribeStatusShow = models.UserSubscribeStatus[user.SubscribeStatus]
 	user.SubscribeTimeShow = user.SubscribeTime.Format("2006-01-02 15:04:05")

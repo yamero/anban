@@ -68,9 +68,10 @@ func (c *StudentController) DoAdd() {
 
 func (c *StudentController) Edit() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
-	record := service.GetStudentInfo(id)
-	c.Data["record"] = record
 	p := map[string]interface{}{}
+	p["relation"] = true
+	record := service.GetStudentInfo(id, p)
+	c.Data["record"] = record
 	p["relation"] = false
 	_, schoolList := service.GetSchoolList(p)
 	c.Data["schoolList"] = schoolList

@@ -15,7 +15,9 @@ type UserController struct {
 
 func (c *UserController) Edit() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
-	record := service.GetUserInfo(id)
+	p := map[string]interface{}{}
+	p["relation"] = false
+	record := service.GetUserInfo(id, p)
 	c.Data["record"] = record
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/user/edit.html"

@@ -2,11 +2,9 @@ package admin
 
 import (
 	"anban/utils"
+	"context"
 	"fmt"
-	"io"
-	"os"
-	"path"
-	"strings"
+	"github.com/astaxie/beego"
 	"time"
 )
 
@@ -18,6 +16,54 @@ func (c *UploadController) Prepare() {
 	c.EnableXSRF = false
 }
 
+// 上传到腾讯云对象存储
+func (c *UploadController) Editor() {
+	res := struct{
+		Errno int `json:"errno"`
+		Msg string `json:"msg"`
+		Data []string `json:"data"`
+	}{}
+	fileList, err := c.GetFiles("editorFile")
+	if err != nil {
+		res.Errno = 1
+		res.Msg = "获取文件失败" + err.Error()
+		c.Data["json"] = &res
+		c.ServeJSON()
+		return
+	}
+	maxSize := int64(2 << 20)
+	for _, h := range fileList {
+		if h.Size > maxSize {
+			res.Errno = 1
+			res.Msg = "上传的每个文件大小不能超过2M"
+			c.Data["json"] = &res
+			c.ServeJSON()
+			return
+		}
+	}
+	bucketDomain := beego.AppConfig.String("bucketdomain")
+	for _, fh := range fileList {
+		f, err := fh.Open()
+		if err != nil {
+			res.Errno = 1
+			res.Msg = "有文件上传失败"
+			c.Data["json"] = &res
+			c.ServeJSON()
+			return
+		}
+		defer f.Close()
+		objKey := "admin/" + time.Now().Format("20060102") + "/" + utils.Encode(fmt.Sprintf("%d", time.Now().UnixNano()))
+		c := utils.GetStorageObj()
+		c.Object.Put(context.Background(), objKey, f, nil)
+		res.Data = append(res.Data, fmt.Sprintf("%s/%s", bucketDomain, objKey))
+	}
+	res.Errno = 0
+	c.Data["json"] = &res
+	c.ServeJSON()
+}
+
+/*
+// 多个文件上传
 func (c *UploadController) Editor() {
 	res := struct{
 		Errno int `json:"errno"`
@@ -56,6 +102,7 @@ func (c *UploadController) Editor() {
 		if err != nil {
 			os.MkdirAll(d, os.ModePerm)
 		}
+		logs.Info(fh.Filename)
 		ext := path.Ext(fh.Filename)
 		n := fmt.Sprintf("%d", time.Now().UnixNano())
 		toFile := d + "/" + utils.Encode(n) + ext
@@ -67,7 +114,14 @@ func (c *UploadController) Editor() {
 			c.ServeJSON()
 			return
 		}
-		io.Copy(dst, f)
+		_, err = io.Copy(dst, f)
+		if err != nil {
+			res.Errno = 1
+			res.Msg = "有文件上传失败"
+			c.Data["json"] = &res
+			c.ServeJSON()
+			return
+		}
 		res.Data = append(res.Data, strings.TrimLeft(toFile, "."))
 		f.Close()
 		dst.Close()
@@ -75,7 +129,7 @@ func (c *UploadController) Editor() {
 	res.Errno = 0
 	c.Data["json"] = &res
 	c.ServeJSON()
-}
+}*/
 
 /*
 // 单个文件上传

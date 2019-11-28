@@ -12,10 +12,22 @@ import (
 )
 
 // 获取学生信息
-func GetStudentInfo(id int64) *models.Student {
+func GetStudentInfo(id int64, p map[string]interface{}) *models.Student {
 	o := orm.NewOrm()
 	student := &models.Student{}
-	o.QueryTable("Student").RelatedSel().Filter("id", id).One(student)
+	qs := o.QueryTable("Student")
+	relation, _ := p["relation"].(bool)
+	if relation {
+		qs = qs.RelatedSel()
+	}
+	if id > 0 {
+		qs = qs.Filter("id", id)
+	}
+	sn, _ := p["sn"].(string)
+	if len(sn) > 0 {
+		qs = qs.Filter("sn", sn)
+	}
+	qs.One(student)
 	student.CreatedShow = student.Created.Format("2006-01-02 15:04:05")
 	student.UpdatedShow = student.Updated.Format("2006-01-02 15:04:05")
 	return student

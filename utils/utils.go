@@ -4,7 +4,11 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/tencentyun/cos-go-sdk-v5"
 	"math"
+	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 )
@@ -107,4 +111,19 @@ func (p *Paginator) GetPageHtml() string {
 	h += fmt.Sprintf("<a class=\"next\" href=\"javascript:void(0)\" page-num=\"%d\">&gt;&gt;</a>", nextPage)
 	h += fmt.Sprintf("<span style=\"margin-left:10px;border:none;\">共 %d 条数据</span>", p.TotalCount)
 	return h
+}
+
+func GetStorageObj() *cos.Client {
+	bucketDomain := beego.AppConfig.String("bucketdomain")
+	secretId := beego.AppConfig.String("secretid")
+	secretKey := beego.AppConfig.String("secretkey")
+	u, _ := url.Parse(bucketDomain)
+	b := &cos.BaseURL{BucketURL: u}
+	c := cos.NewClient(b, &http.Client{
+		Transport: &cos.AuthorizationTransport{
+			SecretID: secretId,
+			SecretKey: secretKey,
+		},
+	})
+	return c
 }
