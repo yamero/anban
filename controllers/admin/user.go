@@ -65,10 +65,14 @@ func (c *UserController) ShowList() {
 	var idCard string
 	var phone string
 	var identity int
+	if c.GetString("identity") == "" {
+		identity = -1
+	} else {
+		identity, _ = strconv.Atoi(c.GetString("identity"))
+	}
 	c.Ctx.Input.Bind(&realName, "real_name")
 	c.Ctx.Input.Bind(&idCard, "id_card")
 	c.Ctx.Input.Bind(&phone, "phone")
-	c.Ctx.Input.Bind(&identity, "identity")
 	perCount, _ := beego.AppConfig.Int("percount")
 	symPageCount, _ := beego.AppConfig.Int("symmetricpagecount")
 	p := map[string]interface{}{}

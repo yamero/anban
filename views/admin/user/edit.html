@@ -157,7 +157,7 @@
             canSubmit = false;
 
             $.ajax({
-                url: "/admin/user/edit",
+                url: "{{urlfor "admin.UserController.DoEdit"}}",
                 type: "POST",
                 data: $("#data-form").serialize(),
                 dataType: "json",

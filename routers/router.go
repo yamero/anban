@@ -70,6 +70,9 @@ func init() {
 	beego.Router("/admin/user", &admin.UserController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/user/edit/?:id", &admin.UserController{}, "get:Edit;post:DoEdit")
 
-	// 与设备通信的路由
+	// 接收微信通知
+	beego.Router("/wechat/index", &controllers.WechatController{}, "get:Index;post:Index")
+
+	// 与设备通信
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }

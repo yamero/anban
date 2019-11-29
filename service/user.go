@@ -91,7 +91,7 @@ func GetUserList(p map[string]interface{}) (int64, []*models.User) {
 		qs = qs.Filter("phone", phone)
 	}
 	identity, _ := p["identity"].(int)
-	if identity > 0 {
+	if identity > -1 {
 		qs = qs.Filter("identity", identity)
 	}
 	totalCount, _ := qs.Count()

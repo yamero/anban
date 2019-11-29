@@ -60,7 +60,7 @@
                 canSubmit = false;
 
                 $.ajax({
-                    url: "/admin/login",
+                    url: "{{urlfor "admin.UserAdminController.DoLogin"}}",
                     type: "POST",
                     data: $("#login-form").serialize(),
                     dataType: "json",
@@ -75,7 +75,7 @@
                         }
 
                         layer.msg(res.msg, {icon: 1, time: 1000}, function () {
-                            location.href = "/admin";
+                            location.href = "{{urlfor "admin.IndexController.Index"}}";
                         });
 
                     }

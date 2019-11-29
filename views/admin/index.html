@@ -26,7 +26,7 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="/admin">X-admin v2.2</a></div>
+                <a href="/admin">安伴后台管理系统</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -37,7 +37,7 @@
                         <!-- 二级菜单 -->
                         {{/*<dd><a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
                         <dd><a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>*/}}
-                        <dd><a href="/admin/logout">退出</a></dd>
+                        <dd><a href="{{urlfor "admin.UserAdminController.Logout"}}">退出</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -55,7 +55,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('管理员列表','/admin/user_admin')">
+                                <a onclick="xadmin.add_tab('管理员列表','{{urlfor "admin.UserAdminController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>管理员列表</cite></a>
                             </li>
@@ -68,17 +68,17 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('省列表','/admin/province')">
+                                <a onclick="xadmin.add_tab('省列表','{{urlfor "admin.ProvinceController.ShowProvinceList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>省列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('市列表','/admin/city')">
+                                <a onclick="xadmin.add_tab('市列表','{{urlfor "admin.CityController.ShowCityList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>市列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('区县列表','/admin/district')">
+                                <a onclick="xadmin.add_tab('区县列表','{{urlfor "admin.DistrictController.ShowDistrictList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>区县列表</cite></a>
                             </li>
@@ -91,17 +91,17 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('学校列表','/admin/school')">
+                                <a onclick="xadmin.add_tab('学校列表','{{urlfor "admin.SchoolController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>学校列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('班级列表','/admin/class')">
+                                <a onclick="xadmin.add_tab('班级列表','{{urlfor "admin.ClassController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>班级列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('科目列表','/admin/course')">
+                                <a onclick="xadmin.add_tab('科目列表','{{urlfor "admin.CourseController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>科目列表</cite></a>
                             </li>
@@ -114,7 +114,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('关系列表','/admin/student_relation')">
+                                <a onclick="xadmin.add_tab('关系列表','{{urlfor "admin.StudentRelationController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>关系列表</cite></a>
                             </li>
@@ -127,12 +127,12 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('分类列表','/admin/article_type')">
+                                <a onclick="xadmin.add_tab('分类列表','{{urlfor "admin.ArticleTypeController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>分类列表</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('文章列表','/admin/article')">
+                                <a onclick="xadmin.add_tab('文章列表','{{urlfor "admin.ArticleController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>文章列表</cite></a>
                             </li>
@@ -145,7 +145,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('学生列表','/admin/student')">
+                                <a onclick="xadmin.add_tab('学生列表','{{urlfor "admin.StudentController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>学生列表</cite></a>
                             </li>
@@ -158,7 +158,7 @@
                             <i class="iconfont nav_right">&#xe697;</i></a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('会员列表','/admin/user')">
+                                <a onclick="xadmin.add_tab('会员列表','{{urlfor "admin.UserController.ShowList"}}')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>会员列表</cite></a>
                             </li>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src='/admin/welcome' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                        <iframe src='{{urlfor "admin.IndexController.Welcome"}}' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                     </div>
                 </div>
                 <div id="tab_show"></div>

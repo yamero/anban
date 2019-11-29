@@ -24,7 +24,7 @@
             <a href="/admin">首页</a>
             <a><cite>管理员</cite></a>
           </span>
-    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="/admin/user_admin"
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="{{urlfor "admin.UserAdminController.ShowList"}}"
        title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
@@ -33,14 +33,14 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/user_admin">
+                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="{{urlfor "admin.UserAdminController.ShowList"}}">
                         {{.xsrfdata}}
                         <input type="hidden" name="p" id="cur-page" value="1">
                     </form>
                 </div>
                 <div class="layui-card-header">
                     {{/*<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>*/}}
-                    <button class="layui-btn" onclick="xadmin.open('添加用户','/admin/user_admin/add')"><i
+                    <button class="layui-btn" onclick="xadmin.open('添加用户','{{urlfor "admin.UserAdminController.Add"}}')"><i
                                 class="layui-icon"></i>添加
                     </button>
                 </div>
@@ -80,7 +80,7 @@
                                        title="启用/禁用">
                                         <i class="layui-icon">&#xe601;</i>
                                     </a>
-                                    <a title="编辑" onclick="xadmin.open('编辑','/admin/user_admin/edit/{{.Id}}')"
+                                    <a title="编辑" onclick="xadmin.open('编辑','{{urlfor "admin.UserAdminController.Edit" ":id" .Id}}')"
                                        href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
@@ -123,15 +123,15 @@
             layui.use(['layer'], function () {
 
                 $ = layui.jquery;
-                var layer = layui.layer;
-                var xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
+                var layer = layui.layer,
+                    xsrf = base64_decode(Cookies.get("_xsrf").split("|")[0]);
 
                 if (!canSubmit) return false;
                 var loadIndex = layer.load();
                 canSubmit = false;
 
                 $.ajax({
-                    url: "/admin/user_admin/status_switch",
+                    url: "{{urlfor "admin.UserAdminController.StatusSwitch"}}",
                     type: "POST",
                     data: {_xsrf: xsrf, id: id, status: status == 1 ? 0 : 1},
                     dataType: "json",

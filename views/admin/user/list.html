@@ -21,7 +21,7 @@
             <a href="/admin">首页</a>
             <a><cite>会员</cite></a>
           </span>
-    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="/admin/user" title="刷新">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="{{urlfor "admin.UserController.ShowList"}}" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
 <div class="layui-fluid">
@@ -29,10 +29,11 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body">
-                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/user">
+                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="{{urlfor "admin.UserController.ShowList"}}">
                         {{.xsrfdata}}
                         <div class="layui-inline layui-show-xs-block">
                             <select id="identity" name="identity" lay-verify="">
+                                <option value="-1">请选择身份</option>
                                 {{range $key, $val := .identityList}}
                                     <option value="{{$key}}" {{if eq $key $.identity}}selected{{end}}>{{$val}}</option>
                                 {{end}}
@@ -87,7 +88,7 @@
                                     {{end}}
                                 </td>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑','/admin/user/edit/{{.Id}}')" href="javascript:;">
+                                    <a title="编辑" onclick="xadmin.open('编辑','{{urlfor "admin.UserController.Edit" ":id" .Id}}')" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
                                 </td>

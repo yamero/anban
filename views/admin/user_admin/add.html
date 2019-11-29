@@ -135,7 +135,7 @@
                     canSubmit = false;
 
                     $.ajax({
-                        url: "/admin/user_admin/add",
+                        url: "{{urlfor "admin.UserAdminController.DoAdd"}}",
                         type: "POST",
                         data: $("#data-form").serialize(),
                         dataType: "json",

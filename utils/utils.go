@@ -2,13 +2,16 @@ package utils
 
 import (
 	"crypto/md5"
+	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/tencentyun/cos-go-sdk-v5"
+	"io"
 	"math"
 	"net/http"
 	"net/url"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -69,6 +72,7 @@ func NewPaginator(totalCount int, perCount int, symPageCount int, curPage int) *
 	}
 }
 
+// 获取分页页码
 func (p *Paginator) GetPageHtml() string {
 	if p.TotalPageCount <= 0 {
 		return ""
@@ -113,6 +117,7 @@ func (p *Paginator) GetPageHtml() string {
 	return h
 }
 
+// 获取腾讯云存储对象API client
 func GetStorageObj() *cos.Client {
 	bucketDomain := beego.AppConfig.String("bucketdomain")
 	secretId := beego.AppConfig.String("secretid")
@@ -126,4 +131,16 @@ func GetStorageObj() *cos.Client {
 		},
 	})
 	return c
+}
+
+// 与微信通信的签名算法
+func GetWechatSignature(timestamp, nonce string) string {
+	token := beego.AppConfig.String("wechattoken")
+	//1. 将 token、timestamp、nonce三个参数进行字典序排序
+	sl := []string{token, timestamp, nonce}
+	sort.Strings(sl)
+	//2. 将三个参数字符串拼接成一个字符串进行sha1加密
+	s := sha1.New()
+	io.WriteString(s, strings.Join(sl, ""))
+	return fmt.Sprintf("%x", s.Sum(nil))
 }
