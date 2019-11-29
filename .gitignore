@@ -3,3 +3,5 @@ logs
 static/upload
 app.exe
 app
+conf/*
+anbanxy.com.conf
