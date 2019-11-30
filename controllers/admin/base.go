@@ -24,6 +24,7 @@ func (c *BaseController) Prepare() {
 		userAdminId := c.GetSession("userAdminId")
 		if userAdminId == nil {
 			c.Redirect("/admin/login", 302)
+			return
 		}
 		c.Data["loginUserAdmin"] = service.GetUserAdminInfo(userAdminId.(int64))
 		c.Data["currentTime"] = time.Now().Format("2006-01-02 15:04")
