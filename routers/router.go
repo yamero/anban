@@ -10,7 +10,7 @@ func init() {
 	// 虽然beego已经支持注解路由，但注解路由会用到反射机制，降低性能，所以这里还是使用注册路由
 
 	// 前端路由
-	beego.Router("/", &controllers.HomeController{})
+	beego.Router("/", &admin.IndexController{}, "get:Index")
     beego.Router("/main", &controllers.MainController{})
 
 	// 后端路由
