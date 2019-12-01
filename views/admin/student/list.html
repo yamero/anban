@@ -23,7 +23,7 @@
             <a href="/admin">首页</a>
             <a><cite>学生</cite></a>
           </span>
-    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="/admin/student" title="刷新">
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="{{urlfor "admin.StudentController.ShowList"}}" title="刷新">
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
 </div>
 <div class="layui-fluid">
@@ -31,7 +31,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body">
-                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="/admin/student">
+                    <form class="layui-form layui-col-space5" id="search-form" method="post" action="{{urlfor "admin.StudentController.ShowList"}}">
                         {{.xsrfdata}}
                         <div class="layui-inline layui-show-xs-block">
                             <select id="school" name="school_id" lay-filter="school" lay-verify="">
@@ -62,11 +62,12 @@
                             <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <input type="hidden" name="p" id="cur-page" value="1">
+                        <input type="hidden" id="export-excel" name="export_excel" value="0">
                     </form>
                 </div>
                 <div class="layui-card-header">
-                    {{/*<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>*/}}
-                    <button class="layui-btn" onclick="xadmin.open('添加学生','/admin/student/add')"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" onclick="xadmin.open('添加学生','{{urlfor "admin.StudentController.Add"}}')"><i class="layui-icon"></i>添加</button>
+                    <button class="layui-btn" id="export">导出excel</button>
                 </div>
                 <div class="layui-card-body ">
                     <table class="layui-table layui-form">
@@ -100,7 +101,7 @@
                                     {{end}}
                                 </td>
                                 <td class="td-manage">
-                                    <a title="编辑" onclick="xadmin.open('编辑','/admin/student/edit/{{.Id}}')" href="javascript:;">
+                                    <a title="编辑" onclick="xadmin.open('编辑','{{urlfor "admin.StudentController.Edit" ":id" .Id}}')" href="javascript:;">
                                         <i class="layui-icon">&#xe642;</i>
                                     </a>
                                 </td>
@@ -135,11 +136,18 @@
 
         $(".page").on("click", "a", function () {
             var n = $(this).attr("page-num");
+            $("#export-excel").val(0);
             $("#cur-page").val(n);
             $("#search-form").submit();
         });
 
+        $(".layui-card-header").on("click", "#export", function () {
+            $("#export-excel").val(1);
+            $("#search-form").submit();
+        });
+
         form.on("submit(search)", function () {
+            $("#export-excel").val(0);
             $("#cur-page").val(1);
             $("#search-form").submit();
         });

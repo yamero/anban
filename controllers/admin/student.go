@@ -1,11 +1,16 @@
 package admin
 
 import (
+	"anban/models"
 	"anban/service"
 	"anban/utils"
+	"fmt"
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/astaxie/beego"
 	"html/template"
+	"os"
 	"strconv"
+	"time"
 )
 
 type StudentController struct {
@@ -137,23 +142,31 @@ func (c *StudentController) ShowList() {
 	var sn string
 	var realName string
 	var idCard string
+	var exportExcel int
 	c.Ctx.Input.Bind(&schoolId, "school_id")
 	c.Ctx.Input.Bind(&classId, "class_id")
 	c.Ctx.Input.Bind(&sn, "sn")
 	c.Ctx.Input.Bind(&realName, "real_name")
 	c.Ctx.Input.Bind(&idCard, "id_card")
+	c.Ctx.Input.Bind(&exportExcel, "export_excel")
 	perCount, _ := beego.AppConfig.Int("percount")
 	symPageCount, _ := beego.AppConfig.Int("symmetricpagecount")
 	p := map[string]interface{}{}
 	p["relation"] = true
-	p["curPage"] = curPage
-	p["perCount"] = perCount
 	p["schoolId"] = schoolId
 	p["classId"] = classId
 	p["sn"] = sn
 	p["realName"] = realName
 	p["idCard"] = idCard
+	if exportExcel == 0 {
+		p["curPage"] = curPage
+		p["perCount"] = perCount
+	}
 	totalCount, recordList := service.GetStudentList(p)
+	if exportExcel == 1 && totalCount > 0 {
+		c.ExportExcel(recordList)
+		return
+	}
 	paginator := utils.NewPaginator(int(totalCount), perCount, symPageCount, curPage)
 	c.Data["paginator"] = paginator.GetPageHtml()
 	c.Data["recordList"] = recordList
@@ -173,4 +186,39 @@ func (c *StudentController) ShowList() {
 	}
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/student/list.html"
+}
+
+func (c *StudentController) ExportExcel(recordList []*models.Student) {
+	f := excelize.NewFile()
+	sheetName := "sheet1"
+	index := f.NewSheet(sheetName)
+	col := 65
+	header := []string{"唯一标识", "姓名", "身份证号", "就读学校", "班级", "状态", "注册时间"}
+	for _, h := range header {
+		f.SetCellValue(sheetName, string(col) + "1", h)
+		col++
+	}
+	row := 2
+	for _, record := range recordList {
+		f.SetCellValue(sheetName, fmt.Sprintf("A%d", row), record.Sn)
+		f.SetCellValue(sheetName, fmt.Sprintf("B%d", row), record.RealName)
+		f.SetCellValue(sheetName, fmt.Sprintf("C%d", row), record.IdCard)
+		f.SetCellValue(sheetName, fmt.Sprintf("D%d", row), record.School.Name)
+		f.SetCellValue(sheetName, fmt.Sprintf("E%d", row), record.Class.Name)
+		f.SetCellValue(sheetName, fmt.Sprintf("F%d", row), record.StatusShow)
+		f.SetCellValue(sheetName, fmt.Sprintf("G%d", row), record.CreatedShow)
+		row++
+	}
+	f.SetActiveSheet(index)
+	d := "./static/export/" + time.Now().Format("20060102") + "/"
+	if _, err := os.Stat(d); err != nil {
+		os.MkdirAll(d, os.ModePerm)
+	}
+	saveName := d + "学生_" + time.Now().Format("20060102150405") + ".xlsx"
+	err := f.SaveAs(saveName)
+	if err != nil {
+		c.Ctx.WriteString("导出失败")
+		return
+	}
+	c.Ctx.Output.Download(saveName)
 }

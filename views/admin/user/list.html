@@ -52,7 +52,11 @@
                             <button class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
                         </div>
                         <input type="hidden" name="p" id="cur-page" value="1">
+                        <input type="hidden" id="export-excel" name="export_excel" value="0">
                     </form>
+                </div>
+                <div class="layui-card-header">
+                    <button class="layui-btn" id="export">导出excel</button>
                 </div>
                 <div class="layui-card-body ">
                     <table class="layui-table layui-form">
@@ -122,11 +126,18 @@
 
         $(".page").on("click", "a", function () {
             var n = $(this).attr("page-num");
+            $("#export-excel").val(0);
             $("#cur-page").val(n);
             $("#search-form").submit();
         });
 
+        $(".layui-card-header").on("click", "#export", function () {
+            $("#export-excel").val(1);
+            $("#search-form").submit();
+        });
+
         form.on("submit(search)", function () {
+            $("#export-excel").val(0);
             $("#cur-page").val(1);
             $("#search-form").submit();
         });

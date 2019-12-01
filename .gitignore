@@ -5,3 +5,4 @@ app.exe
 app
 conf/*
 anbanxy.com.conf
+static/export
