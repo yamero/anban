@@ -199,6 +199,9 @@ func (c *StudentController) ExportExcel(recordList []*models.Student) {
 		col++
 	}
 	row := 2
+	style, _ := f.NewStyle(`{"alignment":{"horizontal":"center"}}`)
+	f.SetColWidth(sheetName, "A", "G", 25)
+	f.SetCellStyle(sheetName, "A1", fmt.Sprintf("G%d", len(recordList) + 1), style)
 	for _, record := range recordList {
 		f.SetCellValue(sheetName, fmt.Sprintf("A%d", row), record.Sn)
 		f.SetCellValue(sheetName, fmt.Sprintf("B%d", row), record.RealName)

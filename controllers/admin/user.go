@@ -119,6 +119,9 @@ func (c *UserController) ExportExcel(recordList []*models.User) {
 		col++
 	}
 	row := 2
+	style, _ := f.NewStyle(`{"alignment":{"horizontal":"center"}}`)
+	f.SetColWidth(sheetName, "A", "H", 25)
+	f.SetCellStyle(sheetName, "A1", fmt.Sprintf("H%d", len(recordList) + 1), style)
 	for _, record := range recordList {
 		f.SetCellValue(sheetName, fmt.Sprintf("A%d", row), record.RealName)
 		f.SetCellValue(sheetName, fmt.Sprintf("B%d", row), record.IdentityShow)
