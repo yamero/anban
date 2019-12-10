@@ -9,6 +9,13 @@ import (
 func init() {
 	// 虽然beego已经支持注解路由，但注解路由会用到反射机制，降低性能，所以这里还是使用注册路由
 
+	// 测试路由
+	beego.Router("/test_json", &controllers.MyTestController{}, "post:TestJson")
+	beego.Router("/test_xml", &controllers.MyTestController{}, "post:TestXml")
+
+	// 安伴公众号接收微信消息路由
+	beego.Router("/wechat/anban", &controllers.WechatController{}, "get:AnBan;post:AnBan")
+
 	// 前端路由
 	beego.Router("/", &admin.IndexController{}, "get:Index")
     beego.Router("/main", &controllers.MainController{})
@@ -69,9 +76,6 @@ func init() {
 
 	beego.Router("/admin/user", &admin.UserController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/user/edit/?:id", &admin.UserController{}, "get:Edit;post:DoEdit")
-
-	// 接收微信通知
-	beego.Router("/wechat/index", &controllers.WechatController{}, "get:Index;post:Index")
 
 	// 与设备通信
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
