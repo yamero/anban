@@ -40,8 +40,19 @@ func AddUser(input url.Values) (int64, error) {
 	if _, ok := input["union_id"]; ok {
 		user.UnionId = input["union_id"][0]
 	}
+	if _, ok := input["nick_name"]; ok {
+		user.NickName = input["nick_name"][0]
+	}
 	if _, ok := input["status"]; ok {
 		user.Status, _ = strconv.Atoi(input["status"][0])
+	}
+	if _, ok := input["subscribe_status"]; ok {
+		user.SubscribeStatus, _ = strconv.Atoi(input["subscribe_status"][0])
+	}
+	if _, ok := input["subscribe_time"]; ok {
+		loc, _ := time.LoadLocation("Local")
+		theTime, _ := time.ParseInLocation("2006-01-02 15:04:05", input["subscribe_time"][0], loc)
+		user.SubscribeTime = theTime
 	}
 	return o.Insert(user)
 }
