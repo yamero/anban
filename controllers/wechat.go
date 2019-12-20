@@ -29,6 +29,8 @@ func (c *WechatController) AnBan() {
 	}
 	var p wechat.EventMsg
 	if err := xml.Unmarshal(c.Ctx.Input.RequestBody, &p); err != nil {
-		logs.Info("微信返回：", p)
+		logs.Info("微信返回出错：", err)
 	}
+	logs.Info("微信返回：", p)
+	c.Ctx.WriteString("success")
 }
