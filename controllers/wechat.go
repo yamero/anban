@@ -2,7 +2,10 @@ package controllers
 
 import (
 	"anban/utils"
+	"anban/utils/wechat"
+	"encoding/xml"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 // 接收微信通知
@@ -24,6 +27,8 @@ func (c *WechatController) AnBan() {
 		c.Ctx.WriteString("")
 		return
 	}
-	echoStr := c.GetString("echostr")
-	c.Ctx.WriteString(echoStr)
+	var p wechat.EventMsg
+	if err := xml.Unmarshal(c.Ctx.Input.RequestBody, &p); err != nil {
+		logs.Info("微信返回：", p)
+	}
 }
