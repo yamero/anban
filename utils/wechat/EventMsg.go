@@ -17,7 +17,7 @@ type EventMsg struct {
 	Content string `xml:"Content"` // 用户文字消息内容
 
 	PicUrl  string `xml:"PicUrl"`  // 用户图片消息的图片链接
-	MediaId int64  `xml:"MediaId"` // 图片消息媒体id，可以调用获取临时素材接口拉取数据
+	MediaId string  `xml:"MediaId"` // 图片消息媒体id，可以调用获取临时素材接口拉取数据
 
 	MsgId int64 `xml:"MsgId"` // 用户消息ID
 
