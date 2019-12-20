@@ -14,7 +14,7 @@ func init() {
 	beego.Router("/test_xml", &controllers.MyTestController{}, "post:TestXml")
 
 	// 安伴公众号接收微信消息路由
-	beego.Router("/wechat/anban", &controllers.WechatController{}, "get:AnBan;post:AnBan")
+	beego.Router("/wechat/anban.html", &controllers.WechatController{}, "get:AnBan;post:AnBan")
 
 	// 前端路由
 	beego.Router("/", &admin.IndexController{}, "get:Index")
