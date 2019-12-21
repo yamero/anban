@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"anban/service"
 	"crypto/md5"
 	"crypto/sha1"
 	"encoding/hex"
@@ -135,9 +136,11 @@ func GetStorageObj() *cos.Client {
 
 // 与微信通信的签名算法
 func GetWechatSignature(timestamp, nonce string) string {
-	token := beego.AppConfig.String("wechattoken")
+	id, _ := beego.AppConfig.Int64("anbanid")
+	p := map[string]interface{}{}
+	record := service.GetWechatAccountInfo(id, p)
 	//1. 将 token、timestamp、nonce三个参数进行字典序排序
-	sl := []string{token, timestamp, nonce}
+	sl := []string{record.Token, timestamp, nonce}
 	sort.Strings(sl)
 	//2. 将三个参数字符串拼接成一个字符串进行sha1加密
 	s := sha1.New()

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>安伴鲜知后台管理系统-添加公众号</title>
+    <title>安伴鲜知后台管理系统-修改公众号</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
@@ -32,12 +32,13 @@
     <div class="layui-row">
         <form class="layui-form" id="data-form">
             {{.xsrfdata}}
+            <input type="hidden" name="id" value="{{.record.Id}}">
             <div class="layui-form-item">
                 <label class="layui-form-label">
                     <span class="x-red">*</span>公众号名称
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="name" name="name" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="name" name="name" value="{{.record.Name}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -48,7 +49,7 @@
                     <span class="x-red">*</span>公众号原始ID
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="original_id" name="original_id" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="original_id" name="original_id" value="{{.record.OriginalId}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -59,7 +60,7 @@
                     <span class="x-red">*</span>公众号AppId
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="app_id" name="app_id" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="app_id" name="app_id" value="{{.record.AppId}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -70,7 +71,7 @@
                     <span class="x-red">*</span>公众号AppSecret
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="app_secret" name="app_secret" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="app_secret" name="app_secret" value="{{.record.AppSecret}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -81,7 +82,7 @@
                     <span class="x-red">*</span>公众号Token
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="token" name="token" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="token" name="token" value="{{.record.Token}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -92,7 +93,7 @@
                     <span class="x-red">*</span>公众号EncodingAesKey
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="encoding_aes_key" name="encoding_aes_key" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="encoding_aes_key" name="encoding_aes_key" value="{{.record.EncodingAesKey}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -103,7 +104,7 @@
                     <span class="x-red">*</span>公众号通知url
                 </label>
                 <div class="layui-input-inline">
-                    <input type="text" id="notify_url" name="notify_url" autocomplete="off" class="layui-input" lay-verify="">
+                    <input type="text" id="notify_url" name="notify_url" value="{{.record.NotifyUrl}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -112,8 +113,30 @@
             <div class="layui-form-item">
                 <label for="phone" class="layui-form-label">状态</label>
                 <div class="layui-input-inline">
-                    <input type="radio" name="status" value="1" title="正常" checked>
-                    <input type="radio" name="status" value="0" title="禁用">
+                    <input type="radio" name="status" value="1" title="正常" {{if eq .record.Status 1}}checked{{end}}>
+                    <input type="radio" name="status" value="0" title="禁用" {{if eq .record.Status 0}}checked{{end}}>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    创建时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" readonly value="{{.record.CreatedShow}}" autocomplete="off" class="layui-input" lay-verify="">
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    最后一次修改时间
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" readonly value="{{.record.UpdatedShow}}" autocomplete="off" class="layui-input" lay-verify="">
                 </div>
                 <div class="layui-form-mid layui-word-aux">
 
@@ -121,7 +144,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn" lay-filter="do-submit" lay-submit="">添加</button>
+                <button class="layui-btn" lay-filter="do-submit" lay-submit="">修改</button>
             </div>
         </form>
     </div>
@@ -172,7 +195,7 @@
             canSubmit = false;
 
             $.ajax({
-                url: "/admin/wechat_account/add",
+                url: "/admin/wechat_account/edit",
                 type: "POST",
                 data: $("#data-form").serialize(),
                 dataType: "json",

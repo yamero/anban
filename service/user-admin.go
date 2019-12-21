@@ -44,16 +44,27 @@ func GetUserAdminList(p map[string]interface{}) (int64, []*models.UserAdmin) {
 func AddUserAdmin(input url.Values) (int64, error) {
 	o := orm.NewOrm()
 	roleId := utils.Atoi64(input["role_id"][0])
-	userAdminRole := models.UserAdminRole{Id: roleId}
-	o.Read(&userAdminRole)
+	userAdminRole := models.UserAdminRole{}
+	if roleId > 0 {
+		userAdminRole.Id = roleId
+		o.Read(&userAdminRole)
+	}
 	userAdmin := models.UserAdmin{}
 	userAdmin.Account = input["account"][0]
 	userAdmin.Password = utils.Encode(input["password"][0])
-	userAdmin.Mobile = input["mobile"][0]
-	userAdmin.Email = input["email"][0]
-	userAdmin.RealName = input["real_name"][0]
-	status, _ := strconv.Atoi(input["status"][0])
-	userAdmin.Status = status
+	if _, ok := input["mobile"]; ok {
+		userAdmin.Mobile = input["mobile"][0]
+	}
+	if _, ok := input["email"]; ok {
+		userAdmin.Email = input["email"][0]
+	}
+	if _, ok := input["real_name"]; ok {
+		userAdmin.RealName = input["real_name"][0]
+	}
+	if _, ok := input["status"]; ok {
+		status, _ := strconv.Atoi(input["status"][0])
+		userAdmin.Status = status
+	}
 	userAdmin.UserAdminRole = &userAdminRole
 	return o.Insert(&userAdmin)
 }

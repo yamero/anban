@@ -20,32 +20,44 @@ func (c *WechatAccountController) Add() {
 func (c *WechatAccountController) DoAdd() {
 	var res *utils.ResJsonStruct
 	input := c.Input()
-	if input["school_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择学校", "")
+	if input["name"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号名称", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["class_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择班级", "")
+	if input["original_id"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号原始ID", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["sn"][0] == "" {
-		res = utils.ResJson(0, "请输入唯一标识", "")
+	if input["app_id"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号AppId", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["real_name"][0] == "" {
-		res = utils.ResJson(0, "请输入姓名", "")
+	if input["app_secret"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号AppSecret", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["id_card"][0] == "" {
-		res = utils.ResJson(0, "请输入身份证号", "")
+	if input["token"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号Token", "")
+		c.Data["json"] = res
+		c.ServeJSON()
+		return
+	}
+	if input["encoding_aes_key"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号EncodingAESKey", "")
+		c.Data["json"] = res
+		c.ServeJSON()
+		return
+	}
+	if input["notify_url"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号通知url", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
@@ -75,32 +87,44 @@ func (c *WechatAccountController) Edit() {
 func (c *WechatAccountController) DoEdit() {
 	var res *utils.ResJsonStruct
 	input := c.Input()
-	if input["school_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择学校", "")
+	if input["name"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号名称", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["class_id"][0] <= "0" {
-		res = utils.ResJson(0, "请选择班级", "")
+	if input["original_id"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号原始ID", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["sn"][0] == "" {
-		res = utils.ResJson(0, "请输入唯一标识", "")
+	if input["app_id"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号AppId", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["real_name"][0] == "" {
-		res = utils.ResJson(0, "请输入姓名", "")
+	if input["app_secret"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号AppSecret", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return
 	}
-	if input["id_card"][0] == "" {
-		res = utils.ResJson(0, "请输入身份证号", "")
+	if input["token"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号Token", "")
+		c.Data["json"] = res
+		c.ServeJSON()
+		return
+	}
+	if input["encoding_aes_key"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号EncodingAESKey", "")
+		c.Data["json"] = res
+		c.ServeJSON()
+		return
+	}
+	if input["notify_url"][0] == "" {
+		res = utils.ResJson(0, "请输入公众号通知url", "")
 		c.Data["json"] = res
 		c.ServeJSON()
 		return

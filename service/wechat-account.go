@@ -2,6 +2,7 @@ package service
 
 import (
 	"anban/models"
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"net/url"
 	"strconv"
@@ -62,28 +63,14 @@ func AddWechatAccount(input url.Values) (int64, error) {
 func EditWechatAccount(input url.Values) (int64, error) {
 	o := orm.NewOrm()
 	p := orm.Params{}
-	/*if _, ok := input["original_id"]; ok {
-		p["original_id"] = input["original_id"][0]
-	}
-	if _, ok := input["name"]; ok {
-		p["name"] = input["name"][0]
-	}
-	if _, ok := input["app_id"]; ok {
-		p["app_id"] = input["app_id"][0]
-	}
-	if _, ok := input["app_secret"]; ok {
-		p["app_secret"] = input["app_secret"][0]
-	}
-	if _, ok := input["token"]; ok {
-		p["token"] = input["token"][0]
-	}
-	if _, ok := input["status"]; ok {
-		p["status"] = input["status"][0]
-	}*/
 	for k, v := range input {
+		if k == "id" || k == "_xsrf" {
+			continue
+		}
 		p[k] = v[0]
 	}
 	p["updated"] = time.Now().Format("2006-01-02 15:04:05")
+	logs.Info(p);
 	return o.QueryTable("WechatAccount").Filter("id", input["id"][0]).Update(p)
 }
 

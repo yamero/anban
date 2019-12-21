@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"anban/service"
 	"anban/utils"
 	"anban/utils/Device"
 	"anban/utils/wechat"
@@ -8,6 +9,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"github.com/astaxie/beego"
+	"net/url"
 )
 
 type MyTestController struct {
@@ -52,4 +54,14 @@ func (c *MyTestController) TestXml() {
 	res = utils.ResJson(0, "解析成功", p)
 	c.Data["json"] = res
 	c.ServeJSON()
+}
+
+func (c *MyTestController) InitAdminUser() {
+	input := url.Values{
+		"account": {"admin"},
+		"password": {"anban123"},
+		"status": {"1"},
+	}
+	service.AddUserAdmin(input)
+	c.Ctx.WriteString("管理员初始化成功，密码:anban123，登录后请务必修改为更复杂的密码")
 }
