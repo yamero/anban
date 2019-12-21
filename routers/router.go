@@ -9,6 +9,9 @@ import (
 func init() {
 	// 虽然beego已经支持注解路由，但注解路由会用到反射机制，降低性能，所以这里还是使用注册路由
 
+	// 初始化第一个后台管理员
+	beego.Router("/init_admin_user", &controllers.MyTestController{}, "get:InitAdminUser")
+
 	// 测试路由
 	beego.Router("/test_json", &controllers.MyTestController{}, "post:TestJson")
 	beego.Router("/test_xml", &controllers.MyTestController{}, "post:TestXml")
