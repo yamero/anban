@@ -77,6 +77,10 @@ func init() {
 	beego.Router("/admin/user", &admin.UserController{}, "get:ShowList;post:ShowList")
 	beego.Router("/admin/user/edit/?:id", &admin.UserController{}, "get:Edit;post:DoEdit")
 
+	beego.Router("/admin/wechat_account", &admin.WechatAccountController{}, "get:ShowList;post:ShowList")
+	beego.Router("/admin/wechat_account/add", &admin.WechatAccountController{}, "get:Add;post:DoAdd")
+	beego.Router("/admin/wechat_account/edit/?:id", &admin.WechatAccountController{}, "get:Edit;post:DoEdit")
+
 	// 与设备通信
 	beego.Router("/read_card", &controllers.DeviceController{}, "post:ReadCard")
 }

@@ -21,6 +21,7 @@ func init() {
 		new(Class),
 		new(Student),
 		new(User),
+		new(WechatAccount),
 	)
 	orm.RunSyncdb("default", false, true)
 }
