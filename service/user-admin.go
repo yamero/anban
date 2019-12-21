@@ -31,7 +31,7 @@ func GetUserAdminList(p map[string]interface{}) (int64, []*models.UserAdmin) {
 		start := perCount.(int) * (curPage.(int) - 1)
 		qs = qs.Limit(perCount, start)
 	}
-	qs.RelatedSel("UserAdminRole").All(&userAdminList)
+	qs.RelatedSel("UserAdminRole").OrderBy("-created").All(&userAdminList)
 	for _, userAdmin := range userAdminList {
 		userAdmin.StatusShow = models.UserAdminStatus[userAdmin.Status]
 		userAdmin.CreatedShow = userAdmin.Created.Format("2006-01-02 15:04:05")
@@ -43,9 +43,9 @@ func GetUserAdminList(p map[string]interface{}) (int64, []*models.UserAdmin) {
 // 添加管理员
 func AddUserAdmin(input url.Values) (int64, error) {
 	o := orm.NewOrm()
-	roleId := utils.Atoi64(input["role_id"][0])
 	userAdminRole := models.UserAdminRole{}
-	if roleId > 0 {
+	if _, ok := input["role_id"]; ok {
+		roleId := utils.Atoi64(input["role_id"][0])
 		userAdminRole.Id = roleId
 		o.Read(&userAdminRole)
 	}

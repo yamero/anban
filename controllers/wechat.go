@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"anban/utils"
 	"anban/utils/wechat"
 	"encoding/xml"
 	"github.com/astaxie/beego"
@@ -22,7 +21,7 @@ func (c *WechatController) AnBan() {
 	timestamp := c.GetString("timestamp")
 	nonce := c.GetString("nonce")
 	signature := c.GetString("signature")
-	genSignature := utils.GetWechatSignature(timestamp, nonce)
+	genSignature := wechat.GetWechatSignature(timestamp, nonce)
 	if signature != genSignature { // 验证是否是微信发过来的消息，如果不是，直接返回
 		c.Ctx.WriteString("")
 		return
