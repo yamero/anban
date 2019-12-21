@@ -57,6 +57,13 @@ func (c *MyTestController) TestXml() {
 }
 
 func (c *MyTestController) InitAdminUser() {
+	p := map[string]interface{}{}
+	p["account"] = "admin"
+	record := service.GetUserAdminInfo(0, p)
+	if record.Id > 0 {
+		c.Ctx.WriteString("请不要重复初始化管理员")
+		return
+	}
 	input := url.Values{
 		"account": {"admin"},
 		"password": {"anban123"},

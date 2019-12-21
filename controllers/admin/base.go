@@ -26,7 +26,9 @@ func (c *BaseController) Prepare() {
 			c.Redirect("/admin/login", 302)
 			return
 		}
-		c.Data["loginUserAdmin"] = service.GetUserAdminInfo(userAdminId.(int64))
+		p := map[string]interface{}{}
+		p["relation"] = false
+		c.Data["loginUserAdmin"] = service.GetUserAdminInfo(userAdminId.(int64), p)
 		c.Data["currentTime"] = time.Now().Format("2006-01-02 15:04")
 	}
 }

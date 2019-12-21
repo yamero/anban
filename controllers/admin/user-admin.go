@@ -56,7 +56,9 @@ func (c *UserAdminController) DoAdd() {
 
 func (c *UserAdminController) Edit() {
 	id := utils.Atoi64(c.Ctx.Input.Param(":id"))
-	c.Data["record"] = service.GetUserAdminInfo(id)
+	p := map[string]interface{}{}
+	p["relation"] = true
+	c.Data["record"] = service.GetUserAdminInfo(id, p)
 	c.Data["xsrfdata"] = template.HTML(c.XSRFFormHTML())
 	c.TplName = "admin/user_admin/edit.html"
 }
